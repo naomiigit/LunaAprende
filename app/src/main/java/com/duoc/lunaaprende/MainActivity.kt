@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.duoc.lunaaprende.ui.Navegacion
 import com.duoc.lunaaprende.ui.theme.LunaAprendeTheme
 import com.duoc.lunaaprende.ui.theme.PaginaUno
@@ -21,8 +22,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             LunaAprendeTheme {
-                // Montamos la navegación (NavController + NavHost + rutas)
-                Navegacion()
+                PaginaUno(navController = NavController)
             }
         }
     }
