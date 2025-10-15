@@ -15,8 +15,11 @@ fun Navegacion() {
     val navController = rememberNavController()
     val ivm: InicioViewModel = viewModel()
     val rvm: RegistroViewModel = viewModel()
+
     NavHost(navController, startDestination = "Inicio") {
         composable("Inicio") { Inicio(ivm, navController) }
         composable("Registro") {Registro(rvm,navController)}
+        composable("menu") { Menu(navController) }
+
     }
 }

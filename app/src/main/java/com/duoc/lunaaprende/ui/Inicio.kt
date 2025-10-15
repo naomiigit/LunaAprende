@@ -35,7 +35,7 @@ fun Inicio( viewModel: InicioViewModel, navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.logo),
+            painter = painterResource(id = R.drawable.logosinfondo),
             contentDescription = "Iniciar sesion ",
             modifier = Modifier.size(300.dp),
             contentScale = ContentScale.Fit
@@ -65,7 +65,7 @@ fun Inicio( viewModel: InicioViewModel, navController: NavController) {
                 )
             }
         )
-        Button(onClick = {navController.navigate("Registro")}) {
+        Button(onClick = {navController.navigate("Menu")}) {
             Text("Continuaar")
         }
     }
