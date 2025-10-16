@@ -65,7 +65,7 @@ fun Inicio( viewModel: InicioViewModel, navController: NavController) {
                 )
             }
         )
-        Button(onClick = {navController.navigate("Menu")}) {
+        Button(onClick = {navController.navigate("Registro")}) {
             Text("Continuaar")
         }
     }
