@@ -12,12 +12,13 @@ import com.duoc.lunaaprende.repository.RegistroRepository
 class RegistroViewModel : ViewModel() {
     private val repository = RegistroRepository()
 
-    var registro: RegistroModel by mutableStateOf( repository.getRegistro())
+    var registro: RegistroModel by mutableStateOf( repository.getRegistro() )
     var mensajesError: MensajesError by mutableStateOf( repository.getMensajesError() )
 
     fun verificarRegistro(): Boolean {
         return verificarNombre() &&
                 verificarCorreo() &&
+                verificarPass() &&
                 verificarEdad() &&
                 verificarTerminos()
     }
@@ -33,17 +34,6 @@ class RegistroViewModel : ViewModel() {
         return repository.validacionNombre()
     }
 
-    fun verificarPass(): Boolean {
-        if (!repository.validacionPass()) {
-            mensajesError.pass = "Debe tener al menos 8 caracteres"
-            return false
-        } else {
-            mensajesError.pass = ""
-            return true
-        }
-        return repository.validacionPass()
-    }
-
     fun verificarCorreo(): Boolean {
         if(!repository.validacionCorreo()) {
             mensajesError.correo = "El correo no es válido"
@@ -55,9 +45,20 @@ class RegistroViewModel : ViewModel() {
         return repository.validacionCorreo()
     }
 
+    fun verificarPass(): Boolean {
+        if(!repository.validacionPass()) {
+            mensajesError.pass = "La contraseña no es válida"
+            return false
+        } else {
+            mensajesError.pass = ""
+            return true
+        }
+        return repository.validacionPass()
+    }
+
     fun verificarEdad(): Boolean {
         if(!repository.validacionEdad()) {
-            mensajesError.edad = "Debes ser mayor de edad :("
+            mensajesError.edad = "Debes ser mayor de 16 años"
             return false
         } else {
             mensajesError.edad = ""
