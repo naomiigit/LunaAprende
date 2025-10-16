@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.duoc.lunaaprende.ui.Navegacion
 import com.duoc.lunaaprende.ui.theme.LunaAprendeTheme
+import com.duoc.lunaaprende.ui.theme.Quiz
 
 
 class MainActivity : ComponentActivity() {

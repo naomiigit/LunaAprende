@@ -53,7 +53,7 @@ fun Menu(navController: NavController) {
         Spacer(Modifier.height(16.dp))
 
         Button(
-            onClick = { navController.navigate("quiz") },
+            onClick = { navController.navigate("Quiz") },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)
