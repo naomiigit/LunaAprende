@@ -109,4 +109,4 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
             }
         )
     }
-    }
+}
