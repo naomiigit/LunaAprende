@@ -9,7 +9,9 @@ class QuizRepository {
 
     fun getPreguntas(): List<Pregunta> = listOf(
         Pregunta(
-            texto = "¿Qué imprime este código Java?",
+            texto = "¿Qué imprime este código Java?\n" +
+                    "\n" +
+                    "int x = 3; System.out.println(x + 2);\n",
             opciones = listOf("23", "5", "x + 2", "Error de compilación"),
             indiceCorrecto = 1
         ),
