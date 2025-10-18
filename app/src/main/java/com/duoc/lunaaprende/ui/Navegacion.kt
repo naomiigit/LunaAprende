@@ -23,5 +23,6 @@ fun Navegacion() {
         composable("Registro") {Registro(rvm,navController)}
         composable("menu") { Menu(navController) }
         composable("Quiz") { Quiz(navController,qvm) }
+        composable("SubirApunte") {SubirApunte(navController)}
     }
 }
