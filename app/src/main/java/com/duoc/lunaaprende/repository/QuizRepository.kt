@@ -4,56 +4,64 @@ import com.duoc.lunaaprende.model.Pregunta
 
 class QuizRepository {
 
+
+    //a = 0    b =1     c =2     d =3
+
     fun getPreguntas(): List<Pregunta> = listOf(
         Pregunta(
-            texto = "¿Cuál es la respuesta correcta?",
-            opciones = listOf("Respuesta 1", "Respuesta 2", "Respuesta 3", "Respuesta 4"),
+            texto = "¿Qué imprime este código Java?",
+            opciones = listOf("23", "5", "x + 2", "Error de compilación"),
             indiceCorrecto = 1
         ),
         Pregunta(
-            texto = "¿Capital de Chile?",
-            opciones = listOf("Valparaíso", "Santiago", "Concepción", "La Serena"),
+            texto = "En SQL, ¿qué hace?\n" +
+                    "\n" +
+                    "SELECT nombre FROM Alumno WHERE sede = 'Maipú';\n",
+            opciones = listOf("Crea una tabla Alumno", "Actualiza el campo sede", "Devuelve nombres de alumnos de la sede Maipú", "Elimina alumnos de Maipú"),
+            indiceCorrecto = 2
+        ),
+        Pregunta(
+            texto = "En HTTP para una API REST, ¿qué método se usa típicamente para crear un recurso?",
+            opciones = listOf("GET", "POST", "PUT", "DELETE"),
             indiceCorrecto = 1
         ),
         Pregunta(
-            texto = "2 + 2 = ?",
-            opciones = listOf("3", "4", "5", "6"),
+            texto = "¿Qué representa “PaaS” en cloud?",
+            opciones = listOf("Process as a Service", "Program as a Service", "Product as a Service", "Platform as a Service"),
+            indiceCorrecto = 3
+        ),
+        Pregunta(
+            texto = "¿Qué imprime este Kotlin?\n" +
+                    "\n" +
+                    "val list = listOf(1,2,3)\n" +
+                    "println(list.first())",
+            opciones = listOf("1", "0", "3", "Error por mutabilidad"),
+            indiceCorrecto = 0
+        ),
+        Pregunta(
+            texto = "En POO, la herencia permite:",
+            opciones = listOf("Que un objeto tenga múltiples estados simultáneos", "Reutilizar atributos y métodos de una clase base", "Ejecución paralela de métodos", "Encriptar variables privadas"),
             indiceCorrecto = 1
         ),
         Pregunta(
-            texto = "Color del cielo despejado (de día)",
-            opciones = listOf("Rojo", "Azul", "Verde", "Amarillo"),
+            texto = "En HTML, ¿qué nivel de título es <h3>?",
+            opciones = listOf("El más grande", "Nivel 2", "Nivel 3", "Un subtítulo sin semántica"),
+            indiceCorrecto = 2
+        ),
+        Pregunta(
+            texto = "En Java, ¿qué hace == con tipos primitivos?",
+            opciones = listOf("Compara referencias", "Compara valores", "Convierte a String y compara", "Lanza excepción si difiere"),
             indiceCorrecto = 1
         ),
         Pregunta(
-            texto = "¿Cuántos días tiene una semana?",
-            opciones = listOf("5", "6", "7", "8"),
-            indiceCorrecto = 2
+            texto = "En SQL, una clave primaria (PRIMARY KEY):",
+            opciones = listOf("Acepta nulos y repite valores", "No acepta nulos y es única", "Solo acepta nulos", "Es opcionalmente única"),
+            indiceCorrecto = 1
         ),
         Pregunta(
-            texto = "¿Cuántos días tiene una semana?",
-            opciones = listOf("5", "6", "7", "8"),
-            indiceCorrecto = 2
-        ),
-        Pregunta(
-            texto = "¿Cuántos días tiene una semana?",
-            opciones = listOf("5", "6", "7", "8"),
-            indiceCorrecto = 2
-        ),
-        Pregunta(
-            texto = "¿Cuántos días tiene una semana?",
-            opciones = listOf("5", "6", "7", "8"),
-            indiceCorrecto = 2
-        ),
-        Pregunta(
-            texto = "¿Cuántos días tiene una semana?",
-            opciones = listOf("5", "6", "7", "8"),
-            indiceCorrecto = 2
-        ),
-        Pregunta(
-            texto = "¿Cuántos días tiene una semana?",
-            opciones = listOf("5", "6", "7", "8"),
-            indiceCorrecto = 2
+            texto = "¿Qué código Java imprime “Hola, DUOC”?",
+            opciones = listOf("System.out.println(\"Hola, DUOC\");", "print(\"Hola, DUOC\")", "echo \"Hola, DUOC\";", "Console.log(\"Hola, DUOC\");"),
+            indiceCorrecto = 0
         ),
         //----------------------------------------------------------------------//
         Pregunta(
