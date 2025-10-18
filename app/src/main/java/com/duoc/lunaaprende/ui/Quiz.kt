@@ -17,14 +17,13 @@ import androidx.navigation.NavController
 import com.duoc.lunaaprende.R
 import com.duoc.lunaaprende.viewmodel.QuizViewModel
 
+
 @Composable
-fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()
-) {
-    val q = vm.pregunta
+fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
+    val q = vm.preguntaActual
 
     var abrirModal by remember { mutableStateOf(false) }
     var esCorrecto by remember { mutableStateOf<Boolean?>(null) }
-    var textoSeleccion by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -33,6 +32,9 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = "Quiz analista", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        Spacer(Modifier.height(6.dp))
+        Text(text = "Pregunta ${vm.indiceActual + 1} de ${vm.totalPreguntas}", fontSize = 14.sp)
+
         Spacer(Modifier.height(16.dp))
 
         Image(
@@ -48,9 +50,7 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()
         q.opciones.forEachIndexed { index, texto ->
             Button(
                 onClick = {
-                    val ok = vm.seleccionar(index)
-                    esCorrecto = ok
-                    textoSeleccion = texto
+                    esCorrecto = vm.seleccionar(index)
                     abrirModal = true
                 },
                 modifier = Modifier
@@ -62,29 +62,51 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()
     }
 
     if (abrirModal) {
-        val titulo = if (esCorrecto == true) "¡Muy bien!" else "maal…"
-        val mensaje = if (esCorrecto == true)
-            "¡Respuesta correcta!"
-        else
-            "Respuesta incorrecta"
+        val correcta = (esCorrecto == true)
+        val esUltima = !vm.haySiguiente()
+        val titulo = if (correcta) "¡Muy bien!" else "Incorrecto"
+        val mensaje = if (correcta) "¡Respuesta correcta!" else "Intenta otra vez."
 
         AlertDialog(
-            onDismissRequest = {},
+            onDismissRequest = {  },
             title = { Text(titulo) },
-            text = { Text(mensaje) },
+            text  = { Text(mensaje) },
 
             // Botón principal
             confirmButton = {
                 Button(onClick = {
                     abrirModal = false
-                    if (esCorrecto == true) {
-                        navController.popBackStack("Inicio", inclusive = false)
+                    if (correcta) {
+                        if (!esUltima) {
+                            vm.avanzar()
+                        } else {
+
+                            vm.reiniciarQuiz()
+                        }
                     } else {
                     }
                 }) {
-                    Text(if (esCorrecto == true) "Volver a Inicio" else "Intentar de nuevo")
+                    Text(
+                        when {
+                            correcta && !esUltima -> "Siguiente"
+                            correcta && esUltima  -> "Hacer otro quiz"
+                            else                  -> "Intentar de nuevo"
+                        }
+                    )
+                }
+            },
+
+
+            dismissButton = {
+                if (correcta && esUltima) {
+                    Button(onClick = {
+                        abrirModal = false
+                        navController.popBackStack("Menu", inclusive = false)
+                    }) {
+                        Text("Volver a Menu")
+                    }
                 }
             }
         )
     }
-}
+    }

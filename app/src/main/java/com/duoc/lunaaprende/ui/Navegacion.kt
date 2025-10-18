@@ -6,8 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.duoc.lunaaprende.ui.theme.Inicio
-import com.duoc.lunaaprende.viewModel.InicioViewModel
-import com.duoc.lunaaprende.viewModel.RegistroViewModel
+import com.duoc.lunaaprende.viewmodel.InicioViewModel
+import com.duoc.lunaaprende.viewmodel.RegistroViewModel
 import com.duoc.lunaaprende.viewmodel.QuizViewModel
 
 

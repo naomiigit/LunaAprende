@@ -1,4 +1,4 @@
-package com.duoc.lunaaprende.viewModel
+package com.duoc.lunaaprende.viewmodel
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.duoc.lunaaprende.R
-import com.duoc.lunaaprende.viewModel.InicioViewModel
+import com.duoc.lunaaprende.viewmodel.InicioViewModel
 
 @Composable
 fun Inicio(viewModel: InicioViewModel, navController: NavHostController) {

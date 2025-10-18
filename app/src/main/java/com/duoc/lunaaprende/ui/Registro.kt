@@ -24,7 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.duoc.lunaaprende.R
-import com.duoc.lunaaprende.viewModel.RegistroViewModel
+import com.duoc.lunaaprende.viewmodel.RegistroViewModel
 
 
 @Composable
