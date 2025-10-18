@@ -72,7 +72,7 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
             title = { Text(titulo) },
             text  = { Text(mensaje) },
 
-            // Botón principal
+
             confirmButton = {
                 Button(onClick = {
                     abrirModal = false
