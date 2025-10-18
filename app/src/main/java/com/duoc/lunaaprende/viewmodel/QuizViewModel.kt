@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.duoc.lunaaprende.model.Pregunta
 import com.duoc.lunaaprende.repository.QuizRepository
 
+
 class QuizViewModel(
     private val repository: QuizRepository = QuizRepository()
 ) : ViewModel() {

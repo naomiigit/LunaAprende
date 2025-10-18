@@ -7,8 +7,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.duoc.lunaaprende.ui.theme.Inicio
 import com.duoc.lunaaprende.viewmodel.InicioViewModel
-import com.duoc.lunaaprende.viewmodel.RegistroViewModel
+
 import com.duoc.lunaaprende.viewmodel.QuizViewModel
+import com.duoc.lunaaprende.viewmodel.RegistroViewModel
+
 
 @Composable
 fun Navegacion() {
@@ -20,7 +22,7 @@ fun Navegacion() {
     NavHost(navController, startDestination = "Inicio") {
         composable("Inicio") { Inicio(ivm, navController) }
         composable("Registro") {Registro(rvm,navController)}
-        composable("menu") { Menu(navController) }
+        composable("Menu") { Menu(navController) }
         composable("Quiz") { Quiz(navController,qvm) }
         composable("SubirApunte") {SubirApunte(navController)}
     }

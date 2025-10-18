@@ -27,6 +27,7 @@ import com.duoc.lunaaprende.R
 import com.duoc.lunaaprende.viewmodel.RegistroViewModel
 
 
+
 @Composable
 fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
 
@@ -97,7 +98,14 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
                 title = { Text("Muy bien") },
                 text = { Text("Cuenta creada exitosamente") },
                 confirmButton = {
-                    Button(onClick = { abrirModal = false }) { Text("OK") }
+                    Button(onClick = {
+                        abrirModal = false
+                        navController.navigate("Menu") {
+                            popUpTo("Registro") { inclusive = true }
+                        }
+                    }) {
+                        Text("OK")
+                    }
                 }
             )
         }
