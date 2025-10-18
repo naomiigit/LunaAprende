@@ -10,7 +10,6 @@ import com.duoc.lunaaprende.viewmodel.InicioViewModel
 import com.duoc.lunaaprende.viewmodel.RegistroViewModel
 import com.duoc.lunaaprende.viewmodel.QuizViewModel
 
-
 @Composable
 fun Navegacion() {
     val navController = rememberNavController()
