@@ -9,7 +9,7 @@ import com.duoc.lunaaprende.model.RegistroModel
 import com.duoc.lunaaprende.repository.RegistroRepository
 
 
-class RegistroViewModel : ViewModel() {
+class RegistroViewModel : ViewModel(){
     private val repository = RegistroRepository()
 
     var registro: RegistroModel by mutableStateOf( repository.getRegistro() )
