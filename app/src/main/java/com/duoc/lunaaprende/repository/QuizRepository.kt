@@ -83,32 +83,36 @@ class QuizRepository {
                     "\n" +
                     "String s = \"duoc\";\n" +
                     "System.out.println(s.toUpperCase());\n",
-            opciones = listOf("duoc", "DUOC", "Duoc", "8"),
+            opciones = listOf("duoc", "DUOC", "Duoc", "Error de null"),
+            indiceCorrecto = 1
+        ),
+        Pregunta(
+            texto = "En normalización de BD, la 1FN exige:",
+            opciones = listOf("Sin dependencia transitiva", " Atributos atómicos (sin multivalores/duplicados por celda)", "Clave foránea obligatoria", "Índices en todas las columnas"),
+            indiceCorrecto = 1
+        ),
+        Pregunta(
+            texto = "En JavaScript, ¿qué hace?\n" +
+                    "\n" +
+                    "<button onclick=\"alert('Hola')\">Click</button>\n",
+            opciones = listOf("Lanza error en HTML", "Muestra “Hola” al cargar la página", "Muestra “Hola” al hacer click", "Cierra la pestaña"),
             indiceCorrecto = 2
         ),
         Pregunta(
-            texto = "¿Cuántos días tiene una semana?",
-            opciones = listOf("5", "6", "7", "8"),
-            indiceCorrecto = 2
+            texto = "En Android/Kotlin, ¿qué hace esto?\n" +
+                    "\n" +
+                    "val suma = 2 + 3",
+            opciones = listOf(" Declara función", "Crea variable inmutable con valor 5", "Crea variable mutable con valor 5", "Suma strings"),
+            indiceCorrecto = 1
         ),
         Pregunta(
-            texto = "¿Cuántos días tiene una semana?",
-            opciones = listOf("5", "6", "7", "8"),
-            indiceCorrecto = 2
+            texto = "En SQL, ¿qué hace un JOIN?",
+            opciones = listOf("Duplica datos", " Combina filas de tablas según una condición relacionada", "Elimina tablas", "Crea índices automáticos"),
+            indiceCorrecto = 1
         ),
         Pregunta(
-            texto = "¿Cuántos días tiene una semana?",
-            opciones = listOf("5", "6", "7", "8"),
-            indiceCorrecto = 2
-        ),
-        Pregunta(
-            texto = "¿Cuántos días tiene una semana?",
-            opciones = listOf("5", "6", "7", "8"),
-            indiceCorrecto = 2
-        ),
-        Pregunta(
-            texto = "¿Cuántos días tiene una semana?",
-            opciones = listOf("5", "6", "7", "8"),
+            texto = "En estadística descriptiva, la mediana es:",
+            opciones = listOf("El promedio aritmético", "El valor que más se repite", "El valor central al ordenar los datos", "La suma de todos los valores"),
             indiceCorrecto = 2
         ),
 

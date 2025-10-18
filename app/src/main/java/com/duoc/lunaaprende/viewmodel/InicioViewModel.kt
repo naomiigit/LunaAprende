@@ -9,7 +9,7 @@ import com.duoc.lunaaprende.model.MensajesError
 import com.duoc.lunaaprende.repository.InicioRepository
 
 
-class InicioViewModel : ViewModel() {
+class InicioViewModel : ViewModel(){
     private val repository = InicioRepository()
 
     var inicio: InicioModel by mutableStateOf(repository.getInicio())
