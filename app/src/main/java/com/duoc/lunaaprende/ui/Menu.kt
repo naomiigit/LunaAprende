@@ -67,6 +67,13 @@ fun Menu(navController: NavController) {
                 .fillMaxWidth()
                 .height(52.dp)
         ) { Text("Subir Apuntes", fontSize = 18.sp) }
+
+        Spacer(Modifier.height(20.dp))
+        Button(onClick = { navController.navigate("Inicio")}) {
+            Text("Volver a iniciar Sesion")
+
+
+        }
     }
 }
 
