@@ -9,7 +9,6 @@ import com.duoc.lunaaprende.model.MensajesError
 import com.duoc.lunaaprende.repository.InicioRepository
 
 
-
 class InicioViewModel : ViewModel() {
     private val repository = InicioRepository()
 
@@ -26,20 +25,18 @@ class InicioViewModel : ViewModel() {
             mensajesError.correo = ""
             true
         } else {
-            mensajesError.correo = ""
+            mensajesError.correo = "El correo no es válido"
             false
         }
     }
-
 
     fun verificarPass(): Boolean {
         return if (repository.validacionPass()) {
             mensajesError.pass = ""
             true
         } else {
-            mensajesError.pass = ""
+            mensajesError.pass = "La contraseña no es válida"
             false
         }
     }
-
 }

@@ -24,14 +24,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.duoc.lunaaprende.R
+import com.duoc.lunaaprende.model.Usuario
 import com.duoc.lunaaprende.viewmodel.RegistroViewModel
-
+import com.duoc.lunaaprende.viewmodel.UsuarioViewModel
 
 
 @Composable
 fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
 
+    val userVm: UsuarioViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
     var abrirModal by remember { mutableStateOf(false) }
+
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -84,13 +87,18 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
         Button(
             enabled = viewModel.verificarRegistro(),
             onClick = {
-                if(viewModel.verificarRegistro()) {
+                if (viewModel.verificarRegistro()) {
+                    userVm.agregarUsuario(
+                        Usuario(
+                            nombre = viewModel.registro.nombre,
+                            email = viewModel.registro.correo,
+                            pass   = viewModel.registro.pass
+                        )
+                    )
                     abrirModal = true
                 }
             }
-        ) {
-            Text("Continuar")
-        }
+        ) { Text("Continuar") }
 
         if (abrirModal) {
             AlertDialog(
