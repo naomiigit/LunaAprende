@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.duoc.lunaaprende.R
@@ -16,7 +17,6 @@ import com.duoc.lunaaprende.viewmodel.UsuarioViewModel
 
 @Composable
 fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
-    // Usa el nombre completo para evitar choque con el parámetro 'inicioVm'
     val userVm: UsuarioViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
     val loginOk by userVm.loginOk.collectAsState()
 
@@ -43,6 +43,8 @@ fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
             value = inicioVm.inicio.pass,
             onValueChange = { inicioVm.inicio.pass = it },
             label = { Text("Ingresa tu contraseña") },
+            visualTransformation = PasswordVisualTransformation(), //aqui hacemos que la contraseña no se vea xd
+
             isError = !inicioVm.verificarPass(),
             supportingText = { Text(inicioVm.mensajesError.pass, color = androidx.compose.ui.graphics.Color.Red) }
         )
@@ -59,7 +61,6 @@ fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
             Text("Continuar")
         }
 
-        // Navega una sola vez cuando cambie loginOk
         LaunchedEffect(loginOk) {
             if (loginOk == true) {
                 navController.navigate("Menu") {

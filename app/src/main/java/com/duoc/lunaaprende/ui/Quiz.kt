@@ -44,7 +44,7 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
         )
 
         Spacer(Modifier.height(16.dp))
-        Text(text = q.texto, fontSize = 16.sp)
+        Text(text = q.texto, fontSize = 20.sp)
         Spacer(Modifier.height(24.dp))
 
         q.opciones.forEachIndexed { index, texto ->
@@ -55,8 +55,8 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
-                    .padding(vertical = 6.dp)
+                    .height(78.dp)
+                    .padding(vertical = 12.dp)
             ) { Text(texto) }
         }
     }

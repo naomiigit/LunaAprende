@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,8 +33,9 @@ fun Menu(navController: NavController) {
     ) {
         Text(
             text = "Menú Principal",
+            modifier = Modifier.padding(top = 30.dp),
             fontSize = 26.sp,
-            fontWeight = FontWeight.Bold // letra en negrita
+            fontWeight = FontWeight.Bold//letritas en negrita
         )
 
         Spacer(Modifier.height(8.dp))

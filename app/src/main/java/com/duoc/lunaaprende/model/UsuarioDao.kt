@@ -16,7 +16,7 @@ interface UsuarioDao {
     @Delete
     suspend fun delete(usuario: Usuario)
 
-    // validar inicio de sesión
+    //aqui validamos inicio de sesion
     @Query("SELECT * FROM usuarios WHERE email = :email AND pass = :password LIMIT 1")
     suspend fun findByCorreoAndPass(email: String, password: String): Usuario?
 }
