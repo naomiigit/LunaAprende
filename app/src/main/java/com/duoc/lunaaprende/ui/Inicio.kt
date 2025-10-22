@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.duoc.lunaaprende.R
@@ -39,15 +40,29 @@ fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
             isError = !inicioVm.verificarCorreo(),
             supportingText = { Text(inicioVm.mensajesError.correo, color = androidx.compose.ui.graphics.Color.Red) }
         )
+
+
+        //agregamos ver y ocultar para la contraseña
+        var ver by remember { mutableStateOf(false) }
         OutlinedTextField(
             value = inicioVm.inicio.pass,
             onValueChange = { inicioVm.inicio.pass = it },
             label = { Text("Ingresa tu contraseña") },
-            visualTransformation = PasswordVisualTransformation(), //aqui hacemos que la contraseña no se vea xd
-
+            visualTransformation = if (ver) VisualTransformation.None else PasswordVisualTransformation(),
             isError = !inicioVm.verificarPass(),
-            supportingText = { Text(inicioVm.mensajesError.pass, color = androidx.compose.ui.graphics.Color.Red) }
+            supportingText = {
+                Text(
+                    inicioVm.mensajesError.pass,
+                    color = androidx.compose.ui.graphics.Color.Red
+                )
+            },
+            trailingIcon = {
+                TextButton(onClick = { ver = !ver }) {
+                    Text(if (ver) "Ocultar" else "Ver")
+                }
+            }
         )
+        //aaa
 
         Button(
             onClick = {
