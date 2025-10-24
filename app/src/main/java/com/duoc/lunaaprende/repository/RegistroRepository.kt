@@ -1,5 +1,6 @@
 package com.duoc.lunaaprende.repository
 
+import android.util.Patterns
 import com.duoc.lunaaprende.model.MensajesError
 import com.duoc.lunaaprende.model.RegistroModel
 
@@ -22,10 +23,8 @@ class  RegistroRepository {
     }
 
     fun validacionCorreo(): Boolean {
-        if (!registro.correo.matches(Regex("^[\\w.-]+@[\\w.-]+\\.\\w+$")))
-            return false
-        else
-            return true
+        val c = registro.correo.trim().lowercase()
+        return Patterns.EMAIL_ADDRESS.matcher(c).matches() && c.endsWith("@duoc.cl")
     }
 
     fun validacionEdad(): Boolean {
