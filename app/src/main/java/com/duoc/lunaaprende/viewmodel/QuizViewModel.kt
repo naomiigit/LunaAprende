@@ -7,13 +7,15 @@ import androidx.lifecycle.ViewModel
 import com.duoc.lunaaprende.model.Pregunta
 import com.duoc.lunaaprende.repository.QuizRepository
 
+
 class QuizViewModel(
     private val repository: QuizRepository = QuizRepository()
 ) : ViewModel() {
 
+    //preguntas
     private val banco: List<Pregunta> = repository.getPreguntas()
 
-
+    //seleccion aleatoria
     private var seleccion: List<Pregunta> = emptyList()
 
     val totalPreguntas: Int get() = seleccion.size
@@ -30,14 +32,16 @@ class QuizViewModel(
     init {
         reiniciarQuiz()
     }
-
+    //marca la alternativa elegida y devuelve true si fue la correcta
     fun seleccionar(index: Int): Boolean {
         seleccionIndex = index
         return index == preguntaActual.indiceCorrecto
     }
 
+    //nos indica si existe una siguiente pregunta
     fun haySiguiente(): Boolean = indiceActual < totalPreguntas - 1
 
+    //avanza a la siguiente pregunta y limpia la seleccion
     fun avanzar() {
         if (haySiguiente()) {
             indiceActual++

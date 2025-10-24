@@ -44,9 +44,10 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
         )
 
         Spacer(Modifier.height(16.dp))
-        Text(text = q.texto, fontSize = 16.sp)
+        Text(text = q.texto, fontSize = 20.sp)
         Spacer(Modifier.height(24.dp))
 
+        //aca recorremos las opciones y creamos un botones x cada una
         q.opciones.forEachIndexed { index, texto ->
             Button(
                 onClick = {
@@ -55,8 +56,8 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
-                    .padding(vertical = 6.dp)
+                    .height(78.dp)
+                    .padding(vertical = 12.dp)
             ) { Text(texto) }
         }
     }
@@ -72,7 +73,7 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
             title = { Text(titulo) },
             text  = { Text(mensaje) },
 
-            // Botón principal
+
             confirmButton = {
                 Button(onClick = {
                     abrirModal = false
@@ -109,4 +110,4 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
             }
         )
     }
-    }
+}

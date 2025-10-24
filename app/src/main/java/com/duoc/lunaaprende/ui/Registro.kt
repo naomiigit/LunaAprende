@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,16 +22,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.duoc.lunaaprende.R
+import com.duoc.lunaaprende.model.Usuario
 import com.duoc.lunaaprende.viewmodel.RegistroViewModel
+import com.duoc.lunaaprende.viewmodel.UsuarioViewModel
 
 
 @Composable
 fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
 
+    val userVm: UsuarioViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
     var abrirModal by remember { mutableStateOf(false) }
+
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -59,13 +66,23 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
             isError = !viewModel.verificarCorreo(),
             supportingText = { Text( viewModel.mensajesError.correo, color = androidx.compose.ui.graphics.Color.Red) }
         )
+    //agregamos ver y ocultar para la contraseña
+        var ver by remember { mutableStateOf(false) }
         OutlinedTextField(
             value = viewModel.registro.pass,
             onValueChange = { viewModel.registro.pass = it },
             label = { Text("Ingresa una contraseña") },
             isError = !viewModel.verificarPass(),
-            supportingText = { Text( viewModel.mensajesError.pass, color = androidx.compose.ui.graphics.Color.Red) }
+            supportingText = { Text( viewModel.mensajesError.pass, color = androidx.compose.ui.graphics.Color.Red) },
+            visualTransformation = if (ver) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                TextButton(onClick = { ver = !ver }) {
+                    Text(if (ver) "Ocultar" else "Ver")
+                }
+            }
         )
+
+        //aaa
         OutlinedTextField(
             value = viewModel.registro.edad,
             onValueChange = { viewModel.registro.edad = it },
@@ -80,28 +97,42 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
         )
         Text("Acepta los términos")
 
+        //validatodo y crea el usuario y abre el modal de exito :D
         Button(
             enabled = viewModel.verificarRegistro(),
             onClick = {
-                if(viewModel.verificarRegistro()) {
+                if (viewModel.verificarRegistro()) {
+                    userVm.agregarUsuario(
+                        Usuario(
+                            nombre = viewModel.registro.nombre,
+                            email = viewModel.registro.correo,
+                            pass   = viewModel.registro.pass
+                        )
+                    )
                     abrirModal = true
                 }
             }
-        ) {
-            Text("Continuar")
-        }
+        ) { Text("Continuar") }
 
+        //cuenta creada, se cierra y navega a menu
         if (abrirModal) {
             AlertDialog(
                 onDismissRequest = { },
                 title = { Text("Muy bien") },
                 text = { Text("Cuenta creada exitosamente") },
                 confirmButton = {
-                    Button(onClick = { abrirModal = false }) { Text("OK") }
+                    Button(onClick = {
+                        abrirModal = false
+                        navController.navigate("Menu") {
+                            popUpTo("Registro") { inclusive = true }
+                        }
+                    }) {
+                        Text("OK")
+                    }
                 }
             )
         }
-
+        //acceso a la pantalla de inicio
         Spacer(modifier = Modifier.height(30.dp))
         Text("¿Ya tienes una cuenta?")
         Button(onClick = { navController.navigate("Inicio")}) {

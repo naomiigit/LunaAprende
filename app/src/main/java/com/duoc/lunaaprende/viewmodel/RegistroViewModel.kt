@@ -9,12 +9,16 @@ import com.duoc.lunaaprende.model.RegistroModel
 import com.duoc.lunaaprende.repository.RegistroRepository
 
 
+
+
 class RegistroViewModel : ViewModel() {
+
     private val repository = RegistroRepository()
 
     var registro: RegistroModel by mutableStateOf( repository.getRegistro() )
     var mensajesError: MensajesError by mutableStateOf( repository.getMensajesError() )
 
+    //valida el formulario completo
     fun verificarRegistro(): Boolean {
         return verificarNombre() &&
                 verificarCorreo() &&
@@ -77,6 +81,7 @@ class RegistroViewModel : ViewModel() {
         }
         return repository.validacionTerminos()
     }
+
 
 
 
