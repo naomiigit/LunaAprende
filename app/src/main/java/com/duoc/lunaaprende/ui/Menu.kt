@@ -51,7 +51,7 @@ fun Menu(navController: NavController) {
 
         Spacer(Modifier.height(16.dp))
 
-        // Botón para ir a la pantalla del Quiz
+        //con este boton vamos a la pantalla quiz
         Button(
             onClick = { navController.navigate("Quiz") },
             modifier = Modifier
@@ -61,7 +61,7 @@ fun Menu(navController: NavController) {
 
         Spacer(Modifier.height(12.dp))
 
-        // Botón para ir a la pantalla de Subir Apuntes
+        //y en este boton vamos a la pantalla de los apuntes
         Button(
             onClick = { navController.navigate("SubirApunte") },
             modifier = Modifier
@@ -69,7 +69,7 @@ fun Menu(navController: NavController) {
                 .height(52.dp)
         ) { Text("Subir Apuntes", fontSize = 18.sp) }
 
-        // Botón para volver a la pantalla de Inicio
+        //y aca volvemos a nuestro inicio de sesion
         Spacer(Modifier.height(20.dp))
         Button(onClick = { navController.navigate("Inicio")}) {
             Text("Volver a iniciar Sesion")

@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class UsuarioViewModel(app: Application) : AndroidViewModel(app) {
 
-    // Base de datos Room (lazy)
+    //base de datos room
     private val db by lazy {
         Room.databaseBuilder(
             getApplication(),
@@ -35,14 +35,14 @@ class UsuarioViewModel(app: Application) : AndroidViewModel(app) {
 
     init { cargarUsuarios() }
 
-    // Carga todos los usuarios desde el repositorio
+    //cargamos todos los usuarios desde el repositorio
     private fun cargarUsuarios() {
         viewModelScope.launch {
             usuarios.value = repo.getAll()
         }
     }
 
-    // Agrega un usuario en la BD, limpia el formulario y vuelve a cargar la lista
+    //agrega un usuario en la base de datos, limpia el formulario y vuelve a cargar la lista
     fun agregarUsuario(u: Usuario) {
         viewModelScope.launch {
             repo.insert(u)
@@ -53,7 +53,7 @@ class UsuarioViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    // Verifica el correo y la contraseña y actualiza loginOk
+    //aca verificamos el correo y la contraseña y actualiza login
     fun validar(correo: String, pass: String) {
         viewModelScope.launch {
             loginOk.value = repo.validar(correo, pass)

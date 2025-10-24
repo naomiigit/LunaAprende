@@ -4,7 +4,7 @@ import androidx.room.*
 
 @Dao
 interface UsuarioDao {
-    // Trae todos los usuarios
+    //esta parte trae todos los usuarios
     @Query("SELECT * FROM usuarios")
     suspend fun getAll(): List<Usuario>
 

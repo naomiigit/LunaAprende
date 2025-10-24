@@ -32,7 +32,7 @@ fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
             modifier = Modifier.size(250.dp),
             contentScale = ContentScale.Fit
         )
-        // Campo de correo con validación y mensaje de error
+        //validacion del correo y mensaje de error
         OutlinedTextField(
             value = inicioVm.inicio.correo,
             onValueChange = { inicioVm.inicio.correo = it },
@@ -63,7 +63,7 @@ fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
             }
         )
 
-        // se habilita solo si las validaciones están OK
+        //se habilita solo si las validaciones estan ok
         Button(
             onClick = {
                 userVm.validar(
@@ -85,13 +85,13 @@ fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
             }
         }
 
-        // Si las credenciales fueron inválidas, mostramos un mensaje de error
+        //si sale invalido mostramos un mensaje de error
         if (loginOk == false) {
             Spacer(Modifier.height(8.dp))
             Text("Correo o contraseña inválidos", color = androidx.compose.ui.graphics.Color.Red)
         }
 
-        // Enlace para ir a la pantalla de Registro
+        //aqui vamos a la pantalla registro xd
         Spacer(modifier = Modifier.height(30.dp))
         Text("¿Aun no tienes una cuenta?")
         Button(onClick = { navController.navigate("Registro") }) {

@@ -47,7 +47,7 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
         Text(text = q.texto, fontSize = 20.sp)
         Spacer(Modifier.height(24.dp))
 
-        //Recorremos las alternativas y creamos un botón por cada una
+        //aca recorremos las opciones y creamos un botones x cada una
         q.opciones.forEachIndexed { index, texto ->
             Button(
                 onClick = {

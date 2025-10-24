@@ -15,7 +15,7 @@ class QuizViewModel(
     //preguntas
     private val banco: List<Pregunta> = repository.getPreguntas()
 
-    //selección aleatoria
+    //seleccion aleatoria
     private var seleccion: List<Pregunta> = emptyList()
 
     val totalPreguntas: Int get() = seleccion.size
@@ -32,16 +32,16 @@ class QuizViewModel(
     init {
         reiniciarQuiz()
     }
-    // marca la alternativa elegida y devuelve true si fue la correcta
+    //marca la alternativa elegida y devuelve true si fue la correcta
     fun seleccionar(index: Int): Boolean {
         seleccionIndex = index
         return index == preguntaActual.indiceCorrecto
     }
 
-    // Indica si existe una siguiente pregunta
+    //nos indica si existe una siguiente pregunta
     fun haySiguiente(): Boolean = indiceActual < totalPreguntas - 1
 
-    // Avanza a la siguiente pregunta y limpia la selección
+    //avanza a la siguiente pregunta y limpia la seleccion
     fun avanzar() {
         if (haySiguiente()) {
             indiceActual++

@@ -18,7 +18,7 @@ class RegistroViewModel : ViewModel() {
     var registro: RegistroModel by mutableStateOf( repository.getRegistro() )
     var mensajesError: MensajesError by mutableStateOf( repository.getMensajesError() )
 
-    // Valida el formulario completo
+    //valida el formulario completo
     fun verificarRegistro(): Boolean {
         return verificarNombre() &&
                 verificarCorreo() &&

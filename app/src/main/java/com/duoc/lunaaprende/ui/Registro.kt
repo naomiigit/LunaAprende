@@ -97,7 +97,7 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
         )
         Text("Acepta los términos")
 
-        // validatodo crea el Usuario y abre el modal de exito
+        //validatodo y crea el usuario y abre el modal de exito :D
         Button(
             enabled = viewModel.verificarRegistro(),
             onClick = {
@@ -132,7 +132,7 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
                 }
             )
         }
-        //acceso a pantalla de Inicio
+        //acceso a la pantalla de inicio
         Spacer(modifier = Modifier.height(30.dp))
         Text("¿Ya tienes una cuenta?")
         Button(onClick = { navController.navigate("Inicio")}) {
