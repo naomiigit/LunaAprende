@@ -12,12 +12,12 @@ import kotlinx.coroutines.launch
 
 class UsuarioViewModel(app: Application) : AndroidViewModel(app) {
 
-    // Base de datos Room (lazy): se crea una vez cuando se necesita
+    // Base de datos Room (lazy)
     private val db by lazy {
         Room.databaseBuilder(
             getApplication(),
             AppDatabase::class.java,
-            "app_db"
+            "app.db"
         ).build()
     }
 

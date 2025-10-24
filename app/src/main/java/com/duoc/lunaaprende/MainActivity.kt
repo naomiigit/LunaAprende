@@ -17,12 +17,6 @@ import com.duoc.lunaaprende.ui.theme.LunaAprendeTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "app.db"
-        )
-            .build()
         enableEdgeToEdge()
         setContent {
             LunaAprendeTheme {
