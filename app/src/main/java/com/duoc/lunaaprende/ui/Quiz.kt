@@ -2,6 +2,8 @@ package com.duoc.lunaaprende.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -28,9 +30,11 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())   // esto permite deslizar con el dedo si el contenido no calza en el telefono
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Text(text = "Quiz analista", fontWeight = FontWeight.Bold, fontSize = 24.sp)
         Spacer(Modifier.height(6.dp))
         Text(text = "Pregunta ${vm.indiceActual + 1} de ${vm.totalPreguntas}", fontSize = 14.sp)
@@ -44,9 +48,10 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
         )
 
         Spacer(Modifier.height(16.dp))
-        Text(text = q.texto, fontSize = 16.sp)
+        Text(text = q.texto, fontSize = 20.sp)
         Spacer(Modifier.height(24.dp))
 
+        //aca recorremos las opciones y creamos un botones x cada una
         q.opciones.forEachIndexed { index, texto ->
             Button(
                 onClick = {
@@ -55,8 +60,8 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
-                    .padding(vertical = 6.dp)
+                    .height(78.dp)
+                    .padding(vertical = 12.dp)
             ) { Text(texto) }
         }
     }

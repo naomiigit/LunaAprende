@@ -12,11 +12,12 @@ import kotlinx.coroutines.launch
 
 class UsuarioViewModel(app: Application) : AndroidViewModel(app) {
 
+    //base de datos room
     private val db by lazy {
         Room.databaseBuilder(
             getApplication(),
             AppDatabase::class.java,
-            "app_db"
+            "app.db"
         ).build()
     }
 
@@ -29,19 +30,19 @@ class UsuarioViewModel(app: Application) : AndroidViewModel(app) {
     val pass   = MutableStateFlow("")
     val edad   = MutableStateFlow("")
     val terminos = MutableStateFlow(false)
-
     val usuarios = MutableStateFlow<List<Usuario>>(emptyList())
-
     val loginOk = MutableStateFlow<Boolean?>(null)
 
     init { cargarUsuarios() }
 
+    //cargamos todos los usuarios desde el repositorio
     private fun cargarUsuarios() {
         viewModelScope.launch {
             usuarios.value = repo.getAll()
         }
     }
 
+    //agrega un usuario en la base de datos, limpia el formulario y vuelve a cargar la lista
     fun agregarUsuario(u: Usuario) {
         viewModelScope.launch {
             repo.insert(u)
@@ -52,6 +53,7 @@ class UsuarioViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    //aca verificamos el correo y la contraseña y actualiza login
     fun validar(correo: String, pass: String) {
         viewModelScope.launch {
             loginOk.value = repo.validar(correo, pass)

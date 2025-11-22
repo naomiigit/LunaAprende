@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,8 +33,9 @@ fun Menu(navController: NavController) {
     ) {
         Text(
             text = "Menú Principal",
+            modifier = Modifier.padding(top = 30.dp),
             fontSize = 26.sp,
-            fontWeight = FontWeight.Bold // letra en negrita
+            fontWeight = FontWeight.Bold//letritas en negrita
         )
 
         Spacer(Modifier.height(8.dp))
@@ -52,6 +51,7 @@ fun Menu(navController: NavController) {
 
         Spacer(Modifier.height(16.dp))
 
+        //con este boton vamos a la pantalla quiz
         Button(
             onClick = { navController.navigate("Quiz") },
             modifier = Modifier
@@ -61,6 +61,7 @@ fun Menu(navController: NavController) {
 
         Spacer(Modifier.height(12.dp))
 
+        //y en este boton vamos a la pantalla de los apuntes
         Button(
             onClick = { navController.navigate("SubirApunte") },
             modifier = Modifier
@@ -68,6 +69,7 @@ fun Menu(navController: NavController) {
                 .height(52.dp)
         ) { Text("Subir Apuntes", fontSize = 18.sp) }
 
+        //y aca volvemos a nuestro inicio de sesion
         Spacer(Modifier.height(20.dp))
         Button(onClick = { navController.navigate("Inicio")}) {
             Text("Volver a iniciar Sesion")

@@ -4,7 +4,8 @@ import androidx.room.*
 
 @Dao
 interface UsuarioDao {
-    @Query("SELECT * FROM usuarios LIMIT 3")
+    //esta parte trae todos los usuarios
+    @Query("SELECT * FROM usuarios")
     suspend fun getAll(): List<Usuario>
 
     @Insert
@@ -16,7 +17,7 @@ interface UsuarioDao {
     @Delete
     suspend fun delete(usuario: Usuario)
 
-    // validar inicio de sesión
+    //validamos inicio de sesion
     @Query("SELECT * FROM usuarios WHERE email = :email AND pass = :password LIMIT 1")
     suspend fun findByCorreoAndPass(email: String, password: String): Usuario?
 }
