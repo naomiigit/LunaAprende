@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -22,6 +23,9 @@ import com.duoc.lunaaprende.viewmodel.QuizViewModel
 
 @Composable
 fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
+
+    if (vm.totalPreguntas == 0) return
+
     val q = vm.preguntaActual
 
     var abrirModal by remember { mutableStateOf(false) }
@@ -48,11 +52,20 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
         )
 
         Spacer(Modifier.height(16.dp))
-        Text(text = q.texto, fontSize = 20.sp)
+        Text(text = q.question_text, fontSize = 20.sp)
         Spacer(Modifier.height(24.dp))
 
-        //aca recorremos las opciones y creamos un botones x cada una
-        q.opciones.forEachIndexed { index, texto ->
+
+        // creamos una lista de alternativas según los campos de Xano
+        val opciones = listOf(
+            q.alternative_1,
+            q.alternative_2,
+            q.alternative_3,
+            q.alternative_4
+        )
+
+        // aca recorremos las opciones y creamos un botón x cada una
+        opciones.forEachIndexed { index, texto ->
             Button(
                 onClick = {
                     esCorrecto = vm.seleccionar(index)
@@ -72,10 +85,31 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
         val titulo = if (correcta) "¡Muy bien!" else "Incorrecto"
         val mensaje = if (correcta) "¡Respuesta correcta!" else "Intenta otra vez."
 
+
+        // agregamos la imagen segun respuesta correcta o incorrecta
+        val imagen = if (correcta)
+            R.drawable.lunacelebra
+        else
+            R.drawable.lunatriste
+
         AlertDialog(
             onDismissRequest = {  },
-            title = { Text(titulo) },
-            text  = { Text(mensaje) },
+            icon = {
+                Image(
+                    painter = painterResource(id = imagen),
+                    contentDescription = null,
+                    modifier = Modifier.size(200.dp)
+                )
+            },
+            title = { Text(titulo , color = if (correcta) Color.Green else Color.Red ) },
+            text  = {
+                //centramos el mensaje
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ){
+                    Text(mensaje)
+                } },
 
 
             confirmButton = {
