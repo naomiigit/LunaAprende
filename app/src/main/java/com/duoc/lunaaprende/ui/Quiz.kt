@@ -2,6 +2,8 @@ package com.duoc.lunaaprende.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -28,9 +30,11 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())   // esto permite deslizar con el dedo si el contenido no calza en el telefono
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Text(text = "Quiz analista", fontWeight = FontWeight.Bold, fontSize = 24.sp)
         Spacer(Modifier.height(6.dp))
         Text(text = "Pregunta ${vm.indiceActual + 1} de ${vm.totalPreguntas}", fontSize = 14.sp)
