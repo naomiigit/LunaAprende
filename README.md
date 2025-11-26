@@ -1,4 +1,4 @@
-⭐ README – LunaAprende (Proyecto DUOC UC)
+
 
 # 🌙 LunaAprende – App de Estudio y Trivia para DUOC UC
 
