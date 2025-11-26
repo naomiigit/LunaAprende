@@ -56,12 +56,12 @@ Pantalla central que permite acceder a las funciones implementadas:
 
 ## 📂 Estructura de carpetas
 
--ui: Pantallas y componentes visuales.
--ui/theme: Personalización de colores y estilos.
--data/remote: Comunicación con servidores externos y consumo de APIs (Retrofit).
--model: Clases de datos y entidades.
--repository: Acceso y gestión de datos.
--viewmodel: Lógica de presentación y gestión de estados.
+- ui: Pantallas y componentes visuales.
+- ui/theme: Personalización de colores y estilos.
+- data/remote: Comunicación con servidores externos y consumo de APIs (Retrofit).
+- model: Clases de datos y entidades.
+- repository: Acceso y gestión de datos.
+- viewmodel: Lógica de presentación y gestión de estados.
 
 ## 📂 Archivos principales en ui
 - Inicio: Pantalla de inicio de sesión con validación de correo y contraseña. Permite ver/ocultar password y navega al menú tras iniciar sesión.
