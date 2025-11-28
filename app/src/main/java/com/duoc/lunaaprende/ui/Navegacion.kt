@@ -39,5 +39,7 @@ fun Navegacion() {
         composable("SubirApunte") {
             SubirApunte(nav)
         }
+
     }
+
 }
