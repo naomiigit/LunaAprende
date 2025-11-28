@@ -77,7 +77,7 @@ Pantalla central que permite acceder a las funciones implementadas:
 
 1. Clonar el repositorio
    ```bash
-   git clone https://github.com/naomiigit/LunaAprende/tree/n
+   git clone https://github.com/naomiigit/LunaAprende
 
 2. Abrir el proyecto en Android Studio
 
