@@ -1,15 +1,16 @@
 package com.duoc.lunaaprende.ui
 
-
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.duoc.lunaaprende.ui.theme.Inicio
 import com.duoc.lunaaprende.viewmodel.InicioViewModel
-import com.duoc.lunaaprende.viewmodel.RegistroViewModel
 import com.duoc.lunaaprende.viewmodel.QuizViewModel
+import com.duoc.lunaaprende.viewmodel.RegistroViewModel
 
 @Composable
 fun Navegacion() {
@@ -31,15 +32,9 @@ fun Navegacion() {
             Menu(nav)
         }
 
-        composable("Quiz") {
-            val qvm: QuizViewModel = viewModel()
-            Quiz(nav, qvm)
-        }
 
         composable("SubirApunte") {
             SubirApunte(nav)
         }
-
     }
-
 }

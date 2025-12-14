@@ -29,8 +29,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.duoc.lunaaprende.R
+import com.duoc.lunaaprende.viewmodel.AuthState
 import com.duoc.lunaaprende.viewmodel.AuthViewModel
-import com.duoc.lunaaprende.viewmodel.RegisterState
 import com.duoc.lunaaprende.viewmodel.RegistroViewModel
 
 @Composable
@@ -40,19 +40,13 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
     val registerState by authVm.registerState.collectAsState()
 
     var abrirModal by remember { mutableStateOf(false) }
-    var ver by remember { mutableStateOf(false) }
-
-    LaunchedEffect(registerState) {
-        if (registerState is RegisterState.Success) {
-            abrirModal = true
-        }
-    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Image(
             painter = painterResource(id = R.drawable.bienvenida),
             contentDescription = "Registro",
@@ -76,6 +70,7 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
             supportingText = { Text(viewModel.mensajesError.correo, color = androidx.compose.ui.graphics.Color.Red) }
         )
 
+        var ver by remember { mutableStateOf(false) }
         OutlinedTextField(
             value = viewModel.registro.pass,
             onValueChange = { viewModel.registro.pass = it },
@@ -105,7 +100,7 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
         Text("Acepta los términos")
 
         Button(
-            enabled = viewModel.verificarRegistro() && registerState !is RegisterState.Loading,
+            enabled = viewModel.verificarRegistro() && registerState !is AuthState.Loading,
             onClick = {
                 authVm.register(
                     name = viewModel.registro.nombre.trim(),
@@ -114,12 +109,21 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
                 )
             }
         ) {
-            Text(if (registerState is RegisterState.Loading) "Creando..." else "Continuar")
+            Text(if (registerState is AuthState.Loading) "Creando..." else "Continuar")
         }
 
-        if (registerState is RegisterState.Error) {
-            Spacer(Modifier.height(8.dp))
-            Text((registerState as RegisterState.Error).message, color = androidx.compose.ui.graphics.Color.Red)
+        // ✅ Resultado del registro
+        when (val st = registerState) {
+            is AuthState.Success -> {
+                LaunchedEffect(st.token) {
+                    abrirModal = true
+                }
+            }
+            is AuthState.Error -> {
+                Spacer(Modifier.height(8.dp))
+                Text(st.message, color = androidx.compose.ui.graphics.Color.Red)
+            }
+            else -> {}
         }
 
         if (abrirModal) {
@@ -130,12 +134,13 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
                 confirmButton = {
                     Button(onClick = {
                         abrirModal = false
-                        authVm.resetRegisterState()
+                        authVm.resetRegister()
                         navController.navigate("Menu") {
                             popUpTo("Registro") { inclusive = true }
-                            launchSingleTop = true
                         }
-                    }) { Text("OK") }
+                    }) {
+                        Text("OK")
+                    }
                 }
             )
         }
