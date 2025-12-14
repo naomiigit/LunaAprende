@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -13,13 +14,17 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.duoc.lunaaprende.R
+import com.duoc.lunaaprende.viewmodel.AuthViewModel
 import com.duoc.lunaaprende.viewmodel.InicioViewModel
-import com.duoc.lunaaprende.viewmodel.UsuarioViewModel
+import com.duoc.lunaaprende.viewmodel.LoginState
 
 @Composable
 fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
-    val userVm: UsuarioViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
-    val loginOk by userVm.loginOk.collectAsState()
+
+    val authVm: AuthViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    val loginState by authVm.loginState.collectAsState()
+
+    var ver by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -28,22 +33,21 @@ fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
     ) {
         Image(
             painter = painterResource(id = R.drawable.logosinfondo),
-            contentDescription = "Iniciar sesion ",
+            contentDescription = "Iniciar sesion",
             modifier = Modifier.size(250.dp),
             contentScale = ContentScale.Fit
         )
-        //validacion del correo y mensaje de error
+
         OutlinedTextField(
             value = inicioVm.inicio.correo,
             onValueChange = { inicioVm.inicio.correo = it },
             label = { Text("Ingresa tu correo duoc") },
             isError = !inicioVm.verificarCorreo(),
-            supportingText = { Text(inicioVm.mensajesError.correo, color = androidx.compose.ui.graphics.Color.Red) }
+            supportingText = {
+                Text(inicioVm.mensajesError.correo, color = androidx.compose.ui.graphics.Color.Red)
+            }
         )
 
-
-        //agregamos ver y ocultar para la contraseña
-        var ver by remember { mutableStateOf(false) }
         OutlinedTextField(
             value = inicioVm.inicio.pass,
             onValueChange = { inicioVm.inicio.pass = it },
@@ -51,10 +55,7 @@ fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
             visualTransformation = if (ver) VisualTransformation.None else PasswordVisualTransformation(),
             isError = !inicioVm.verificarPass(),
             supportingText = {
-                Text(
-                    inicioVm.mensajesError.pass,
-                    color = androidx.compose.ui.graphics.Color.Red
-                )
+                Text(inicioVm.mensajesError.pass, color = androidx.compose.ui.graphics.Color.Red)
             },
             trailingIcon = {
                 TextButton(onClick = { ver = !ver }) {
@@ -63,35 +64,36 @@ fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
             }
         )
 
-        //se habilita solo si las validaciones estan ok
         Button(
+            enabled = inicioVm.verificarInicio() && loginState !is LoginState.Loading,
             onClick = {
-                userVm.validar(
+                authVm.login(
                     inicioVm.inicio.correo.trim().lowercase(),
                     inicioVm.inicio.pass
                 )
-            },
-            enabled = inicioVm.verificarInicio()
+            }
         ) {
-            Text("Continuar")
+            Text(if (loginState is LoginState.Loading) "Ingresando..." else "Continuar")
         }
 
-        LaunchedEffect(loginOk) {
-            if (loginOk == true) {
+        LaunchedEffect(loginState) {
+            if (loginState is LoginState.Success) {
                 navController.navigate("Menu") {
                     popUpTo("Inicio") { inclusive = true }
                     launchSingleTop = true
                 }
+                authVm.resetLoginState()
             }
         }
 
-        //si sale invalido mostramos un mensaje de error
-        if (loginOk == false) {
+        if (loginState is LoginState.Error) {
             Spacer(Modifier.height(8.dp))
-            Text("Correo o contraseña inválidos", color = androidx.compose.ui.graphics.Color.Red)
+            Text(
+                (loginState as LoginState.Error).message,
+                color = androidx.compose.ui.graphics.Color.Red
+            )
         }
 
-        //aqui vamos a la pantalla registro xd
         Spacer(modifier = Modifier.height(30.dp))
         Text("¿Aun no tienes una cuenta?")
         Button(onClick = { navController.navigate("Registro") }) {

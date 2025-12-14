@@ -14,6 +14,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,17 +29,24 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.duoc.lunaaprende.R
-import com.duoc.lunaaprende.model.Usuario
+import com.duoc.lunaaprende.viewmodel.AuthViewModel
+import com.duoc.lunaaprende.viewmodel.RegisterState
 import com.duoc.lunaaprende.viewmodel.RegistroViewModel
-import com.duoc.lunaaprende.viewmodel.UsuarioViewModel
-
 
 @Composable
 fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
 
-    val userVm: UsuarioViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
-    var abrirModal by remember { mutableStateOf(false) }
+    val authVm: AuthViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    val registerState by authVm.registerState.collectAsState()
 
+    var abrirModal by remember { mutableStateOf(false) }
+    var ver by remember { mutableStateOf(false) }
+
+    LaunchedEffect(registerState) {
+        if (registerState is RegisterState.Success) {
+            abrirModal = true
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -46,34 +55,33 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
     ) {
         Image(
             painter = painterResource(id = R.drawable.bienvenida),
-            contentDescription = "Iniciar sesion ",
+            contentDescription = "Registro",
             modifier = Modifier.size(250.dp),
             contentScale = ContentScale.Fit
         )
-
 
         OutlinedTextField(
             value = viewModel.registro.nombre,
             onValueChange = { viewModel.registro.nombre = it },
             label = { Text("Ingresa nombre") },
             isError = !viewModel.verificarNombre(),
-            supportingText = { Text( viewModel.mensajesError.nombre, color = androidx.compose.ui.graphics.Color.Red) }
+            supportingText = { Text(viewModel.mensajesError.nombre, color = androidx.compose.ui.graphics.Color.Red) }
         )
+
         OutlinedTextField(
             value = viewModel.registro.correo,
             onValueChange = { viewModel.registro.correo = it },
             label = { Text("Ingresa correo") },
             isError = !viewModel.verificarCorreo(),
-            supportingText = { Text( viewModel.mensajesError.correo, color = androidx.compose.ui.graphics.Color.Red) }
+            supportingText = { Text(viewModel.mensajesError.correo, color = androidx.compose.ui.graphics.Color.Red) }
         )
-    //agregamos ver y ocultar para la contraseña
-        var ver by remember { mutableStateOf(false) }
+
         OutlinedTextField(
             value = viewModel.registro.pass,
             onValueChange = { viewModel.registro.pass = it },
             label = { Text("Ingresa una contraseña") },
             isError = !viewModel.verificarPass(),
-            supportingText = { Text( viewModel.mensajesError.pass, color = androidx.compose.ui.graphics.Color.Red) },
+            supportingText = { Text(viewModel.mensajesError.pass, color = androidx.compose.ui.graphics.Color.Red) },
             visualTransformation = if (ver) VisualTransformation.None else PasswordVisualTransformation(),
             trailingIcon = {
                 TextButton(onClick = { ver = !ver }) {
@@ -82,39 +90,38 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
             }
         )
 
-        //aaa
         OutlinedTextField(
             value = viewModel.registro.edad,
             onValueChange = { viewModel.registro.edad = it },
             label = { Text("Ingresa edad") },
             isError = !viewModel.verificarEdad(),
-            supportingText = { Text( viewModel.mensajesError.edad, color = androidx.compose.ui.graphics.Color.Red) }
+            supportingText = { Text(viewModel.mensajesError.edad, color = androidx.compose.ui.graphics.Color.Red) }
         )
 
         Checkbox(
             checked = viewModel.registro.terminos,
-            onCheckedChange = { viewModel.registro.terminos = it },
+            onCheckedChange = { viewModel.registro.terminos = it }
         )
         Text("Acepta los términos")
 
-        //validatodo y crea el usuario y abre el modal de exito :D
         Button(
-            enabled = viewModel.verificarRegistro(),
+            enabled = viewModel.verificarRegistro() && registerState !is RegisterState.Loading,
             onClick = {
-                if (viewModel.verificarRegistro()) {
-                    userVm.agregarUsuario(
-                        Usuario(
-                            nombre = viewModel.registro.nombre,
-                            email = viewModel.registro.correo,
-                            pass   = viewModel.registro.pass
-                        )
-                    )
-                    abrirModal = true
-                }
+                authVm.register(
+                    name = viewModel.registro.nombre.trim(),
+                    email = viewModel.registro.correo.trim().lowercase(),
+                    password = viewModel.registro.pass
+                )
             }
-        ) { Text("Continuar") }
+        ) {
+            Text(if (registerState is RegisterState.Loading) "Creando..." else "Continuar")
+        }
 
-        //cuenta creada, se cierra y navega a menu
+        if (registerState is RegisterState.Error) {
+            Spacer(Modifier.height(8.dp))
+            Text((registerState as RegisterState.Error).message, color = androidx.compose.ui.graphics.Color.Red)
+        }
+
         if (abrirModal) {
             AlertDialog(
                 onDismissRequest = { },
@@ -123,23 +130,20 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
                 confirmButton = {
                     Button(onClick = {
                         abrirModal = false
+                        authVm.resetRegisterState()
                         navController.navigate("Menu") {
                             popUpTo("Registro") { inclusive = true }
+                            launchSingleTop = true
                         }
-                    }) {
-                        Text("OK")
-                    }
+                    }) { Text("OK") }
                 }
             )
         }
-        //acceso a la pantalla de inicio
+
         Spacer(modifier = Modifier.height(30.dp))
         Text("¿Ya tienes una cuenta?")
-        Button(onClick = { navController.navigate("Inicio")}) {
-            Text("Iniciar Sesion")
-
-
+        Button(onClick = { navController.navigate("Inicio") }) {
+            Text("Iniciar Sesión")
         }
-
     }
 }
