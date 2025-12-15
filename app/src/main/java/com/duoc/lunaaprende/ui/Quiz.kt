@@ -47,7 +47,7 @@ fun Quiz(navController: NavHostController, vm: QuizViewModel, difficulty: String
             ) {
                 Text("No hay preguntas para esta dificultad.")
                 Spacer(Modifier.height(12.dp))
-                Button(onClick = { navController.popBackStack("Dificultad", inclusive = false) }) {
+                Button(onClick = { navController.popBackStack() }) {
                     Text("Volver a elegir dificultad")
                 }
             }
@@ -86,6 +86,16 @@ fun Quiz(navController: NavHostController, vm: QuizViewModel, difficulty: String
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Button(
+                onClick = { navController.popBackStack() },
+                modifier = Modifier.align(Alignment.CenterStart)
+            ) {
+                Text("Cambiar dificultad")
+            }
+        }
+        Spacer(Modifier.height(16.dp))
+
         Text("Quiz analista", fontWeight = FontWeight.Bold, fontSize = 24.sp)
         Spacer(Modifier.height(6.dp))
         Text("Pregunta ${vm.indiceActual + 1} de ${vm.totalPreguntas}", fontSize = 14.sp)
@@ -186,25 +196,21 @@ fun Quiz(navController: NavHostController, vm: QuizViewModel, difficulty: String
                 }
             },
             confirmButton = {
-                Button(
-                    onClick = {
-                        abrirModal = false
-
-                        if (!correcta) return@Button
-
-                        if (!esUltima) {
-                            vm.avanzar()
+                // Solo mostramos el botón si NO es la última pregunta correcta
+                if (!(correcta && esUltima)) {
+                    Button(
+                        onClick = {
+                            abrirModal = false
+                            // Si la respuesta es correcta, avanzamos.
+                            if (correcta) {
+                                vm.avanzar()
+                            }
                         }
-
+                    ) {
+                        Text(
+                            if (correcta) "Siguiente" else "Intentar de nuevo"
+                        )
                     }
-                ) {
-                    Text(
-                        when {
-                            !correcta -> "Intentar de nuevo"
-                            correcta && !esUltima -> "Siguiente"
-                            else -> "OK"
-                        }
-                    )
                 }
             }
         )

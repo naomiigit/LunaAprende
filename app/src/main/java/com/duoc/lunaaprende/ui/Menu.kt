@@ -16,11 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.duoc.lunaaprende.data.local.Session
 
 @Composable
 fun Menu(navController: NavController) {
@@ -81,6 +83,18 @@ fun Menu(navController: NavController) {
         ) {
             Text("Volver a iniciar Sesion")
         }
+
+        val session = Session(LocalContext.current)
+
+        Button(onClick = {
+            session.logout()
+            navController.navigate("Inicio") {
+                popUpTo("Menu") { inclusive = true }
+            }
+        }) {
+            Text("Cerrar sesión")
+        }
+
 
     }
 }

@@ -7,12 +7,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.duoc.lunaaprende.R
+import com.duoc.lunaaprende.data.local.Session
+
 import com.duoc.lunaaprende.viewmodel.AuthState
 import com.duoc.lunaaprende.viewmodel.AuthViewModel
 import com.duoc.lunaaprende.viewmodel.InicioViewModel
@@ -22,6 +25,9 @@ fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
 
     val authVm: AuthViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
     val loginState by authVm.loginState.collectAsState()
+
+
+    val session = Session(LocalContext.current)
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -75,6 +81,9 @@ fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
         when (val st = loginState) {
             is AuthState.Success -> {
                 LaunchedEffect(st.token) {
+                    //guarda sesión iniciada
+                    session.setLoggedIn(true)
+
                     authVm.resetLogin()
                     navController.navigate("Menu") {
                         popUpTo("Inicio") { inclusive = true }
