@@ -15,18 +15,66 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.duoc.lunaaprende.R
+import com.duoc.lunaaprende.viewmodel.QuizState
 import com.duoc.lunaaprende.viewmodel.QuizViewModel
 
-
 @Composable
-fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
+fun Quiz(navController: NavHostController, vm: QuizViewModel, difficulty: String) {
 
-    if (vm.totalPreguntas == 0) return
+    val state by vm.state.collectAsState()
 
-    val q = vm.preguntaActual
+    LaunchedEffect(difficulty) {
+        vm.cargarPreguntas(difficulty)
+    }
+
+    when (state) {
+        is QuizState.Idle, is QuizState.Loading -> {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) { Text("Cargando preguntas...") }
+            return
+        }
+
+        is QuizState.Empty -> {
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("No hay preguntas para esta dificultad.")
+                Spacer(Modifier.height(12.dp))
+                Button(onClick = { navController.popBackStack("Dificultad", inclusive = false) }) {
+                    Text("Volver a elegir dificultad")
+                }
+            }
+            return
+        }
+
+        is QuizState.Error -> {
+            val msg = (state as QuizState.Error).message
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(msg, color = Color.Red)
+                Spacer(Modifier.height(12.dp))
+                Button(onClick = { vm.cargarPreguntas(difficulty) }) {
+                    Text("Reintentar")
+                }
+            }
+            return
+        }
+
+        is QuizState.Ready -> {
+        }
+    }
+
+    val q = vm.preguntaActual ?: return
 
     var abrirModal by remember { mutableStateOf(false) }
     var esCorrecto by remember { mutableStateOf<Boolean?>(null) }
@@ -34,14 +82,13 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())   // esto permite deslizar con el dedo si el contenido no calza en el telefono
+            .verticalScroll(rememberScrollState())
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        Text(text = "Quiz analista", fontWeight = FontWeight.Bold, fontSize = 24.sp)
+        Text("Quiz analista", fontWeight = FontWeight.Bold, fontSize = 24.sp)
         Spacer(Modifier.height(6.dp))
-        Text(text = "Pregunta ${vm.indiceActual + 1} de ${vm.totalPreguntas}", fontSize = 14.sp)
+        Text("Pregunta ${vm.indiceActual + 1} de ${vm.totalPreguntas}", fontSize = 14.sp)
 
         Spacer(Modifier.height(16.dp))
 
@@ -52,11 +99,9 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
         )
 
         Spacer(Modifier.height(16.dp))
-        Text(text = q.question_text, fontSize = 20.sp)
+        Text(q.question_text, fontSize = 20.sp)
         Spacer(Modifier.height(24.dp))
 
-
-        // creamos una lista de alternativas según los campos de Xano
         val opciones = listOf(
             q.alternative_1,
             q.alternative_2,
@@ -64,7 +109,6 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
             q.alternative_4
         )
 
-        // aca recorremos las opciones y creamos un botón x cada una
         opciones.forEachIndexed { index, texto ->
             Button(
                 onClick = {
@@ -82,68 +126,85 @@ fun Quiz(navController: NavController, vm: QuizViewModel = viewModel()) {
     if (abrirModal) {
         val correcta = (esCorrecto == true)
         val esUltima = !vm.haySiguiente()
+
         val titulo = if (correcta) "¡Muy bien!" else "Incorrecto"
         val mensaje = if (correcta) "¡Respuesta correcta!" else "Intenta otra vez."
-
-
-        // agregamos la imagen segun respuesta correcta o incorrecta
-        val imagen = if (correcta)
-            R.drawable.lunacelebra
-        else
-            R.drawable.lunatriste
+        val imagen = if (correcta) R.drawable.lunacelebra else R.drawable.lunatriste
 
         AlertDialog(
-            onDismissRequest = {  },
+            onDismissRequest = { },
             icon = {
                 Image(
                     painter = painterResource(id = imagen),
                     contentDescription = null,
-                    modifier = Modifier.size(200.dp)
+                    modifier = Modifier.size(160.dp)
                 )
             },
-            title = { Text(titulo , color = if (correcta) Color.Green else Color.Red ) },
-            text  = {
-                //centramos el mensaje
+            title = {
+                Text(
+                    text = titulo,
+                    color = if (correcta) Color.Green else Color.Red
+                )
+            },
+            text = {
                 Column(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(max = 300.dp)
+                        .verticalScroll(rememberScrollState()),
                     horizontalAlignment = Alignment.CenterHorizontally
-                ){
+                ) {
                     Text(mensaje)
-                } },
+                    Spacer(Modifier.height(16.dp))
 
-
-            confirmButton = {
-                Button(onClick = {
-                    abrirModal = false
-                    if (correcta) {
-                        if (!esUltima) {
-                            vm.avanzar()
-                        } else {
-
-                            vm.reiniciarQuiz()
+                    if (correcta && esUltima) {
+                        Button(
+                            onClick = {
+                                abrirModal = false
+                                navController.navigate("Dificultad") {
+                                    popUpTo("Menu") { inclusive = false }
+                                    launchSingleTop = true
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Hacer otro quiz")
                         }
-                    } else {
+
+                        Spacer(Modifier.height(10.dp))
+
+                        Button(
+                            onClick = {
+                                abrirModal = false
+                                navController.popBackStack("Menu", inclusive = false)
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text("Volver al menú")
+                        }
                     }
-                }) {
-                    Text(
-                        when {
-                            correcta && !esUltima -> "Siguiente"
-                            correcta && esUltima  -> "Hacer otro quiz"
-                            else                  -> "Intentar de nuevo"
-                        }
-                    )
                 }
             },
-
-
-            dismissButton = {
-                if (correcta && esUltima) {
-                    Button(onClick = {
+            confirmButton = {
+                Button(
+                    onClick = {
                         abrirModal = false
-                        navController.popBackStack("Menu", inclusive = false)
-                    }) {
-                        Text("Volver a Menu")
+
+                        if (!correcta) return@Button
+
+                        if (!esUltima) {
+                            vm.avanzar()
+                        }
+
                     }
+                ) {
+                    Text(
+                        when {
+                            !correcta -> "Intentar de nuevo"
+                            correcta && !esUltima -> "Siguiente"
+                            else -> "OK"
+                        }
+                    )
                 }
             }
         )

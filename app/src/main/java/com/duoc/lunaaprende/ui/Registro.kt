@@ -112,7 +112,7 @@ fun Registro(viewModel: RegistroViewModel, navController: NavHostController) {
             Text(if (registerState is AuthState.Loading) "Creando..." else "Continuar")
         }
 
-        // ✅ Resultado del registro
+        // Resultado del registro
         when (val st = registerState) {
             is AuthState.Success -> {
                 LaunchedEffect(st.token) {

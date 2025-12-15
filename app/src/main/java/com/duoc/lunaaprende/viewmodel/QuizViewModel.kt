@@ -1,61 +1,70 @@
 package com.duoc.lunaaprende.viewmodel
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.duoc.lunaaprende.model.Pregunta
 import com.duoc.lunaaprende.repository.QuizRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+
+sealed class QuizState {
+    object Idle : QuizState()
+    object Loading : QuizState()
+    data class Ready(val preguntas: List<Pregunta>) : QuizState()
+    object Empty : QuizState()
+    data class Error(val message: String) : QuizState()
+}
 
 class QuizViewModel : ViewModel() {
 
-    private val repository = QuizRepository()
+    private val repo = QuizRepository()
 
-    // Lista con TODAS las preguntas que vienen de Xano
-    private var banco: List<Pregunta> = emptyList()
+    private var preguntas: List<Pregunta> = emptyList()
+    private var indiceActualPrivado: Int = 0
 
-    // Lista con las preguntas del quiz actual
-    private var seleccion by mutableStateOf<List<Pregunta>>(emptyList())
+    private val _state = MutableStateFlow<QuizState>(QuizState.Idle)
+    val state: StateFlow<QuizState> = _state
 
-    val totalPreguntas: Int
-        get() = seleccion.size
+    val totalPreguntas: Int get() = preguntas.size
+    val indiceActual: Int get() = indiceActualPrivado
 
-    var indiceActual by mutableIntStateOf(0)
-        private set
+    val preguntaActual: Pregunta?
+        get() = preguntas.getOrNull(indiceActualPrivado)
 
-    val preguntaActual: Pregunta
-        get() = seleccion[indiceActual]
+    fun cargarPreguntas(difficulty: String) {
+        _state.value = QuizState.Loading
+        indiceActualPrivado = 0
+        preguntas = emptyList()
 
-    init {
         viewModelScope.launch {
-            banco = repository.getPreguntas()
-            reiniciarQuiz()
+            try {
+                val data = repo.getQuestionsByDifficulty(difficulty)
+
+                if (data.isEmpty()) {
+                    _state.value = QuizState.Empty
+                    return@launch
+                }
+
+                // preguntas aleatorias
+                preguntas = data.shuffled().take(minOf(5, data.size))
+
+                _state.value = QuizState.Ready(preguntas)
+            } catch (e: Exception) {
+                _state.value = QuizState.Error("Error cargando preguntas: ${e.message ?: "desconocido"}")
+            }
         }
     }
 
-    fun seleccionar(index: Int): Boolean {
-        val correcto = preguntaActual.correct_alternative_index - 1
-        return index == correcto
+    fun seleccionar(indice: Int): Boolean {
+        val q = preguntaActual ?: return false
+
+        return indice == q.correct_alternative_index
     }
 
-    fun haySiguiente(): Boolean = indiceActual < totalPreguntas - 1
+    fun haySiguiente(): Boolean = indiceActualPrivado < preguntas.lastIndex
 
     fun avanzar() {
-        if (haySiguiente()) {
-            indiceActual++
-        }
-    }
-
-    fun reiniciarQuiz() {
-        if (banco.isEmpty()) {
-            seleccion = emptyList()
-            indiceActual = 0
-            return
-        }
-        seleccion = banco.shuffled().take(minOf(3, banco.size))
-        indiceActual = 0
+        if (haySiguiente()) indiceActualPrivado++
     }
 }

@@ -71,7 +71,7 @@ fun Inicio(inicioVm: InicioViewModel, navController: NavHostController) {
             Text(if (loginState is AuthState.Loading) "Cargando..." else "Continuar")
         }
 
-        // ✅ Resultado del login
+        // Resultado del login
         when (val st = loginState) {
             is AuthState.Success -> {
                 LaunchedEffect(st.token) {
