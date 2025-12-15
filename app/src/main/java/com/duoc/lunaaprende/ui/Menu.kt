@@ -16,11 +16,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+
+import com.duoc.lunaaprende.data.remote.Session
 
 @Composable
 fun Menu(navController: NavController) {
@@ -53,7 +56,7 @@ fun Menu(navController: NavController) {
 
         //con este boton vamos a la pantalla quiz
         Button(
-            onClick = { navController.navigate("Quiz") },
+            onClick = { navController.navigate("Dificultad") },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)
@@ -69,13 +72,21 @@ fun Menu(navController: NavController) {
                 .height(52.dp)
         ) { Text("Subir Apuntes", fontSize = 18.sp) }
 
-        //y aca volvemos a nuestro inicio de sesion
-        Spacer(Modifier.height(20.dp))
-        Button(onClick = { navController.navigate("Inicio")}) {
-            Text("Volver a iniciar Sesion")
+        Spacer(Modifier.height(12.dp))
 
 
+        val session = Session(LocalContext.current)
+
+        Button(onClick = {
+            session.logout()
+            navController.navigate("Inicio") {
+                popUpTo("Menu") { inclusive = true }
+            }
+        }) {
+            Text("Cerrar sesión")
         }
+
+
     }
 }
 
