@@ -72,18 +72,7 @@ fun Menu(navController: NavController) {
                 .height(52.dp)
         ) { Text("Subir Apuntes", fontSize = 18.sp) }
 
-        //y aca volvemos a nuestro inicio de sesion
-        Spacer(Modifier.height(20.dp))
-        Button(
-            onClick = {
-                navController.navigate("Inicio") {
-                    popUpTo("Menu") { inclusive = true }
-                    launchSingleTop = true
-                }
-            }
-        ) {
-            Text("Volver a iniciar Sesion")
-        }
+        Spacer(Modifier.height(5.dp))
 
         val session = Session(LocalContext.current)
 
