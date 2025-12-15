@@ -41,9 +41,8 @@ fun Dificultad(navController: NavHostController) {
 
         Spacer(Modifier.height(12.dp))
 
-
         Button(onClick = { navController.navigate("Quiz/Facil") }) {
-            Text("Fácil")
+            Text("Facil")
         }
 
         Spacer(Modifier.height(12.dp))
@@ -55,13 +54,19 @@ fun Dificultad(navController: NavHostController) {
         Spacer(Modifier.height(12.dp))
 
         Button(onClick = { navController.navigate("Quiz/Dificil") }) {
-            Text("Difícil")
+            Text("Dificil")
         }
 
         Spacer(Modifier.height(12.dp))
 
         Button(onClick = { navController.navigate("Quiz/Insano") }) {
             Text("Insano")
+        }
+
+        Spacer(Modifier.height(24.dp))
+
+        Button(onClick = { navController.popBackStack() }) {
+            Text("Volver al Menú")
         }
     }
 }

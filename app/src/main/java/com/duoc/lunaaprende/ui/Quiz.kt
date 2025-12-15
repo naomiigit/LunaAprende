@@ -91,7 +91,7 @@ fun Quiz(navController: NavHostController, vm: QuizViewModel, difficulty: String
                 onClick = { navController.popBackStack() },
                 modifier = Modifier.align(Alignment.CenterStart)
             ) {
-                Text("Cambiar dificultad")
+                Text("Volver")
             }
         }
         Spacer(Modifier.height(16.dp))
