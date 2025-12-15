@@ -33,7 +33,7 @@ fun Dificultad(navController: NavHostController) {
         Spacer(Modifier.height(8.dp))
 
         Image(
-            painter = painterResource(id = R.drawable.logosinfondo),
+            painter = painterResource(id = R.drawable.lunadificultad),
             contentDescription = "Dificultad",
             modifier = Modifier.size(250.dp),
             contentScale = ContentScale.Fit
