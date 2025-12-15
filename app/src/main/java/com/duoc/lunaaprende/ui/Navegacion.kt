@@ -31,10 +31,25 @@ fun Navegacion() {
         composable("Menu") {
             Menu(nav)
         }
-
-
         composable("SubirApunte") {
             SubirApunte(nav)
         }
+        composable("MisApuntes") {
+            MisApuntes(nav)
+        }
+        composable("Dificultad") {
+            Dificultad(nav)
+        }
+
+        composable(
+            route = "Quiz/{difficulty}" ,
+            arguments = listOf(navArgument("difficulty") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val difficulty = backStackEntry.arguments?.getString("difficulty") ?: "facil"
+            val qvm: QuizViewModel = viewModel()
+            Quiz(nav, qvm, difficulty)
+        }
     }
 }
+
+
