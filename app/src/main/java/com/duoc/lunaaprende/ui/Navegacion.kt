@@ -36,8 +36,5 @@ fun Navegacion() {
         composable("SubirApunte") {
             SubirApunte(nav)
         }
-        composable("MisApuntes") {
-            MisApuntes(nav)
-        }
     }
 }
