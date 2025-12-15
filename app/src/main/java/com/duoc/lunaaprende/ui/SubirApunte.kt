@@ -1,5 +1,8 @@
 package com.duoc.lunaaprende.ui
 
+import com.duoc.lunaaprende.data.local.AppDatabase
+import com.duoc.lunaaprende.data.local.Apunte
+
 import android.Manifest
 import android.graphics.Bitmap
 import android.net.Uri
@@ -27,10 +30,13 @@ import java.io.File
 @Composable
 fun SubirApunte(navController: NavController) {
     val context = LocalContext.current
+    val db = AppDatabase.getDatabase(context)
 
     var imageUri by remember { mutableStateOf<Uri?>(null) }
     var bitmap by remember { mutableStateOf<Bitmap?>(null) }
-    var permisoConcedido by remember { mutableStateOf(false) }
+
+    // Guardamos la ruta del archivo que creamos (para insertar en Room)
+    var rutaGuardada by remember { mutableStateOf<String?>(null) }
 
     // Lanzador de cámara (toma la foto y la guarda en imageUri)
     val takePictureLauncher = rememberLauncherForActivityResult(
@@ -42,18 +48,36 @@ fun SubirApunte(navController: NavController) {
                 imageUri
             )
             bitmap = bmp
+
+            // CREATE guardar en Room
+            val ruta = rutaGuardada
+            if (!ruta.isNullOrBlank()) {
+                db.apunteDao().insertar(
+                    Apunte(
+                        rutaImagen = ruta,
+                        fecha = System.currentTimeMillis()
+                    )
+                )
+                rutaGuardada = null // evita duplicados
+            }
         }
     }
 
-    // Lanzador de permiso de camara
+    // Lanzador de permiso de cámara
     val cameraPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        permisoConcedido = granted
         if (granted) {
-            val file = File.createTempFile("foto_apunte", ".jpg", context.cacheDir)
-            file.deleteOnExit()
+            // Crear archivo en almacenamiento interno
+            val file = File(
+                context.filesDir,
+                "foto_apunte_${System.currentTimeMillis()}.jpg"
+            )
 
+            // Guardamos la ruta para Room
+            rutaGuardada = file.absolutePath
+
+            // Crear URI con FileProvider
             val uri = FileProvider.getUriForFile(
                 context,
                 context.packageName + ".provider",
@@ -68,7 +92,7 @@ fun SubirApunte(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 40.dp, start = 24.dp, end = 24.dp),  // Más centrado pero no al medio total
+            .padding(top = 40.dp, start = 24.dp, end = 24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -93,10 +117,25 @@ fun SubirApunte(navController: NavController) {
                 .fillMaxWidth()
                 .height(52.dp)
         ) {
-            Text(text = if (bitmap == null) "Tomar foto" else "Tomar otra foto", fontSize = 18.sp)
+            Text(
+                text = if (bitmap == null) "Tomar foto" else "Tomar otra foto",
+                fontSize = 18.sp
+            )
         }
 
         Spacer(Modifier.height(18.dp))
+
+        // Botón para ir a ver tus apuntes (READ)
+        Button(
+            onClick = { navController.navigate("MisApuntes") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(44.dp)
+        ) {
+            Text("Ver mis apuntes", fontSize = 16.sp)
+        }
+
+        Spacer(Modifier.height(12.dp))
 
         Button(
             onClick = { navController.popBackStack() },
@@ -107,7 +146,7 @@ fun SubirApunte(navController: NavController) {
             Text("Volver al menú", fontSize = 16.sp)
         }
 
-        // La foto tomadala lo dejamos abajo de los botones
+        // Preview de la foto
         if (bitmap != null) {
             Spacer(Modifier.height(32.dp))
 
