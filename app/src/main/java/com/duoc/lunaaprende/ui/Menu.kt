@@ -22,7 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.duoc.lunaaprende.data.local.Session
+import com.duoc.lunaaprende.data.remote.Session
+
 
 @Composable
 fun Menu(navController: NavController) {

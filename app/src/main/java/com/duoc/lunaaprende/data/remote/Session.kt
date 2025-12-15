@@ -1,4 +1,4 @@
-package com.duoc.lunaaprende.data.local
+package com.duoc.lunaaprende.data.remote
 
 import android.content.Context
 

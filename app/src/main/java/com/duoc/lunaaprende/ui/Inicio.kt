@@ -14,7 +14,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.duoc.lunaaprende.R
-import com.duoc.lunaaprende.data.local.Session
+import com.duoc.lunaaprende.data.remote.Session
 
 import com.duoc.lunaaprende.viewmodel.AuthState
 import com.duoc.lunaaprende.viewmodel.AuthViewModel

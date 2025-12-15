@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.duoc.lunaaprende.data.local.Session
+import com.duoc.lunaaprende.data.remote.Session
 import com.duoc.lunaaprende.ui.theme.Inicio
 
 import com.duoc.lunaaprende.viewmodel.InicioViewModel
@@ -35,6 +35,8 @@ fun Navegacion() {
             val rvm: RegistroViewModel = viewModel()
             Registro(rvm, nav)
         }
+
+        composable("MisApuntes") { MisApuntes(nav) }
 
         composable("Menu") { Menu(nav) }
 
