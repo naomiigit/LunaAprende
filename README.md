@@ -67,51 +67,42 @@ Pantalla central que permite acceder a las funcionalidades disponibles:
 
 📂 Estructura de carpetas
 
-ui: Pantallas y componentes visuales de la aplicación desarrollados con Jetpack Compose.
+- ui: Pantallas y componentes visuales de la aplicación desarrollados con Jetpack Compose.
 
-ui/theme: Personalización de colores, tipografías y estilos usando Material Design 3.
+- ui/theme: Personalización de colores, tipografías y estilos usando Material Design 3.
 
-data/remote: Comunicación con servidores externos y consumo de APIs REST mediante Retrofit (login, registro y quiz).
+- data/remote: Comunicación con servidores externos y consumo de APIs REST mediante Retrofit (login, registro y quiz).
 
-data/local: Persistencia local de apuntes utilizando Room Database.
+- data/local: Persistencia local de apuntes utilizando Room Database.
 
-model: Clases de datos y entidades utilizadas en la aplicación.
+- model: Clases de datos y entidades utilizadas en la aplicación.
 
-repository: Acceso y gestión de datos.
+- repository: Acceso y gestión de datos.
 
-viewmodel: Lógica de presentación y gestión de estados.
+- viewmodel: Lógica de presentación y gestión de estados.
 
 
 ---
 
 📂 Archivos principales en ui
 
-Inicio:
-Pantalla de inicio de sesión con validación de correo y contraseña. Permite ver u ocultar la contraseña y navega al menú tras iniciar sesión.
+- Inicio: Pantalla de inicio de sesión con validación de correo y contraseña. Permite ver u ocultar la contraseña y navega al menú tras iniciar sesión.
 
-Registro:
-Formulario para crear cuenta con validación de nombre, correo, contraseña y edad. Muestra un mensaje de éxito y redirige al flujo correspondiente.
+- Registro: Formulario para crear cuenta con validación de nombre, correo, contraseña y edad. Muestra un mensaje de éxito y redirige al flujo correspondiente.
 
-Menu:
-Menú principal con acceso directo al Quiz, a Subir Apuntes, a Mis Apuntes, selección de Dificultad y opción de cerrar sesión.
+- Menu: Menú principal con acceso directo al Quiz, a Subir Apuntes, a Mis Apuntes, selección de Dificultad y opción de cerrar sesión.
 
-Dificultad:
-Pantalla que permite seleccionar el nivel de dificultad del Quiz antes de comenzar la trivia.
+- Dificultad: Pantalla que permite seleccionar el nivel de dificultad del Quiz antes de comenzar la trivia.
 
-Quiz:
-Quiz interactivo con preguntas obtenidas desde una API externa, alternativas dinámicas y visualización del resultado final.
+- Quiz: Quiz interactivo con preguntas obtenidas desde una API externa, alternativas dinámicas y visualización del resultado final.
 
-SubirApunte:
-Permite tomar una fotografía utilizando la cámara del dispositivo, mostrarla en pantalla y confirmar la subida del apunte, el cual se almacena localmente mediante Room Database.
+- SubirApunte: Permite tomar una fotografía utilizando la cámara del dispositivo, mostrarla en pantalla y confirmar la subida del apunte, el cual se almacena localmente mediante Room Database.
 
-MisApuntes:
-Pantalla que muestra el listado de apuntes guardados localmente. Permite visualizar los apuntes almacenados en la base de datos.
+- MisApuntes: Pantalla que muestra el listado de apuntes guardados localmente. Permite visualizar los apuntes almacenados en la base de datos.
 
-Navegacion:
-Control central de rutas. Administra la navegación entre Inicio, Registro, Menú, Dificultad, Quiz, Subir Apunte y Mis Apuntes.
+- Navegacion: Control central de rutas. Administra la navegación entre Inicio, Registro, Menú, Dificultad, Quiz, Subir Apunte y Mis Apuntes.
 
-theme:
-Configuración de colores, tipografías y estilos visuales de la aplicación.
+- theme: Configuración de colores, tipografías y estilos visuales de la aplicación.
 
 
 ---
