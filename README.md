@@ -24,7 +24,7 @@ Este README describe solo lo que hemos desarrollado hasta ahora.
 Pantalla central que permite acceder a las funcionalidades disponibles:
 - Subir Apunte  
 - Quiz  
-- **Cerrar sesión y volver al inicio de sesión**
+- Cerrar sesión
 
 ---
 
@@ -65,36 +65,57 @@ Pantalla central que permite acceder a las funcionalidades disponibles:
 
 ---
 
-## 📂 Estructura de carpetas
+📂 Estructura de carpetas
 
-com.duoc.lunaaprende │ ├── ui │   ├── Inicio │   ├── Registro │   ├── Menu │   ├── Quiz │   ├── SubirApunte │   ├── Navegacion │   └── theme │ ├── viewmodel │   ├── InicioViewModel.kt │   ├── RegistroViewModel.kt │   └── QuizViewModel.kt │ ├── repository │   ├── InicioRepository.kt │   ├── RegistroRepository.kt │   └── QuizRepository.kt │ ├── data │   ├── local │   │   ├── AppDatabase.kt │   │   ├── Apunte.kt │   │   └── ApunteDao.kt │   └── remote │       ├── ApiService.kt │       ├── RetrofitInstance.kt │       └── Session.kt │ ├── model │   ├── QuizModel.kt │   ├── RegistroModel.kt │   └── MensajesError.kt │ └── MainActivity.kt
+ui: Pantallas y componentes visuales de la aplicación desarrollados con Jetpack Compose.
+
+ui/theme: Personalización de colores, tipografías y estilos usando Material Design 3.
+
+data/remote: Comunicación con servidores externos y consumo de APIs REST mediante Retrofit (login, registro y quiz).
+
+data/local: Persistencia local de apuntes utilizando Room Database.
+
+model: Clases de datos y entidades utilizadas en la aplicación.
+
+repository: Acceso y gestión de datos.
+
+viewmodel: Lógica de presentación y gestión de estados.
+
+
+---
+
+📂 Archivos principales en ui
+
+Inicio:
+Pantalla de inicio de sesión con validación de correo y contraseña. Permite ver u ocultar la contraseña y navega al menú tras iniciar sesión.
+
+Registro:
+Formulario para crear cuenta con validación de nombre, correo, contraseña y edad. Muestra un mensaje de éxito y redirige al flujo correspondiente.
+
+Menu:
+Menú principal con acceso directo al Quiz, a Subir Apuntes, a Mis Apuntes, selección de Dificultad y opción de cerrar sesión.
+
+Dificultad:
+Pantalla que permite seleccionar el nivel de dificultad del Quiz antes de comenzar la trivia.
+
+Quiz:
+Quiz interactivo con preguntas obtenidas desde una API externa, alternativas dinámicas y visualización del resultado final.
+
+SubirApunte:
+Permite tomar una fotografía utilizando la cámara del dispositivo, mostrarla en pantalla y confirmar la subida del apunte, el cual se almacena localmente mediante Room Database.
+
+MisApuntes:
+Pantalla que muestra el listado de apuntes guardados localmente. Permite visualizar los apuntes almacenados en la base de datos.
+
+Navegacion:
+Control central de rutas. Administra la navegación entre Inicio, Registro, Menú, Dificultad, Quiz, Subir Apunte y Mis Apuntes.
+
+theme:
+Configuración de colores, tipografías y estilos visuales de la aplicación.
+
 
 ---
 
-## 📂 Archivos principales en `ui`
-
-- **Inicio**:  
-  Pantalla de inicio de sesión. Valida correo y contraseña y redirige al menú principal.
-
-- **Registro**:  
-  Formulario para crear una cuenta nueva. Envía los datos a la API y redirige al inicio o menú.
-
-- **Menu**:  
-  Menú principal con acceso al Quiz, Subir Apunte y **cerrar sesión**.
-
-- **Quiz**:  
-  Quiz interactivo con preguntas dinámicas obtenidas desde la API externa.
-
-- **SubirApunte**:  
-  Permite capturar una imagen usando la cámara y guardarla localmente.
-
-- **Navegacion**:  
-  Control central de rutas entre Inicio, Registro, Menú, Quiz y Subir Apunte.
-
-- **theme**:  
-  Configuración de colores, tipografías y estilos de la aplicación.
-
----
 
 ## 🔐 Permisos utilizados
 
