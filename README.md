@@ -9,32 +9,42 @@ Este README describe solo lo que hemos desarrollado hasta ahora.
 
 ---
 
+
 ## 📌 Funcionalidades desarrolladas actualmente
 
-### 🔐 1. Login y Registro con Base de Datos
-- Registro de nuevos usuarios usando Room Database.  
-- Validación de credenciales durante el login.  
-- Almacenamiento local.
+### 🔐 1. Inicio de Sesión y Registro de Usuarios
+- Inicio de sesión y registro mediante **API REST externa**.
+- Consumo del servicio utilizando **Retrofit**.
+- Validación de credenciales desde el backend.
+- Manejo de la sesión del usuario dentro de la aplicación.
 
-### 🏠 2. Menú principal
-Pantalla central que permite acceder a las funciones implementadas:
+---
+
+### 🏠 2. Menú Principal
+Pantalla central que permite acceder a las funcionalidades disponibles:
 - Subir Apunte  
 - Quiz  
-- Volver al inicio de sesión 
+- **Cerrar sesión y volver al inicio de sesión**
 
-### 📷 3. Subir Apunte – Uso de Cámara
-- La app abre la cámara del dispositivo.  
-- Permite tomar una fotografía.  
-- La imagen capturada se muestra inmediatamente en pantalla.  
-(Actualmente no se almacena de forma permanente, solo se visualiza.)
+---
+
+### 📷 3. Subir Apunte – Uso de Cámara y Room
+- Solicita permisos de cámara al usuario.
+- Permite tomar una fotografía del apunte.
+- La imagen capturada se **almacena localmente utilizando Room Database**.
+- Uso de las entidades:
+  - `Apunte.kt`
+  - `ApunteDao.kt`
+  - `AppDatabase.kt`
+
+---
 
 ### ❓ 4. Quiz con API Externa
-
-- Se obtienen 3 preguntas desde una API REST externa.
-- La app recibe el JSON, lo convierte a objetos Kotlin y construye el quiz dinámicamente.
-- Las preguntas varían en cada ejecución.
-- El usuario selecciona sus respuestas y al final se muestra el resultado básico.
-
+- Obtención de preguntas desde una **API REST externa**.
+- Consumo del servicio mediante **Retrofit**.
+- Conversión del JSON recibido a objetos Kotlin.
+- Construcción dinámica del Quiz.
+- El usuario selecciona sus respuestas y al final se muestra el resultado.
 
 ---
 
@@ -46,47 +56,89 @@ Pantalla central que permite acceder a las funciones implementadas:
 - Material Design 3  
 
 ### Base de Datos
-- Room Database (usuarios)
+- Room Database (almacenamiento local de apuntes)
 
 ### Integraciones
-- Camera
-- API externa para las preguntas del quiz
+- API REST externa (login, registro y quiz)
+- Retrofit
+- Cámara del dispositivo
 
 ---
 
 ## 📂 Estructura de carpetas
 
-- ui: Pantallas y componentes visuales.
-- ui/theme: Personalización de colores y estilos.
-- data/remote: Comunicación con servidores externos y consumo de APIs (Retrofit).
-- model: Clases de datos y entidades.
-- repository: Acceso y gestión de datos.
-- viewmodel: Lógica de presentación y gestión de estados.
-
-## 📂 Archivos principales en ui
-- Inicio: Pantalla de inicio de sesión con validación de correo y contraseña. Permite ver/ocultar password y navega al menú tras iniciar sesión.
- - Menu: Menú principal con acceso directo al Quiz, a Subir Apuntes y a cerrar sesión.
-- Navegacion: Control central de rutas. Administra la navegación entre Inicio, Registro, Menú, Quiz y Subir Apunte.
-- Quiz: Quiz interactivo con preguntas, alternativas dinámicas, imágenes y modal de respuestas correctas o incorrectas.
-- Registro: Formulario para crear cuenta con validación de nombre, correo, contraseña y edad. Muestra modal de éxito y redirige al menú.
-- SubirApunte: Permite tomar una foto con la cámara, mostrarla en pantalla y confirmar la subida del apunte.
+com.duoc.lunaaprende │ ├── ui │   ├── Inicio │   ├── Registro │   ├── Menu │   ├── Quiz │   ├── SubirApunte │   ├── Navegacion │   └── theme │ ├── viewmodel │   ├── InicioViewModel.kt │   ├── RegistroViewModel.kt │   └── QuizViewModel.kt │ ├── repository │   ├── InicioRepository.kt │   ├── RegistroRepository.kt │   └── QuizRepository.kt │ ├── data │   ├── local │   │   ├── AppDatabase.kt │   │   ├── Apunte.kt │   │   └── ApunteDao.kt │   └── remote │       ├── ApiService.kt │       ├── RetrofitInstance.kt │       └── Session.kt │ ├── model │   ├── QuizModel.kt │   ├── RegistroModel.kt │   └── MensajesError.kt │ └── MainActivity.kt
 
 ---
 
-## ▶️ Cómo ejecutar el proyecto
+## 📂 Archivos principales en `ui`
 
-1. Clonar el repositorio
-   ```bash
-   git clone https://github.com/naomiigit/LunaAprende
+- **Inicio**:  
+  Pantalla de inicio de sesión. Valida correo y contraseña y redirige al menú principal.
 
-2. Abrir el proyecto en Android Studio
+- **Registro**:  
+  Formulario para crear una cuenta nueva. Envía los datos a la API y redirige al inicio o menú.
+
+- **Menu**:  
+  Menú principal con acceso al Quiz, Subir Apunte y **cerrar sesión**.
+
+- **Quiz**:  
+  Quiz interactivo con preguntas dinámicas obtenidas desde la API externa.
+
+- **SubirApunte**:  
+  Permite capturar una imagen usando la cámara y guardarla localmente.
+
+- **Navegacion**:  
+  Control central de rutas entre Inicio, Registro, Menú, Quiz y Subir Apunte.
+
+- **theme**:  
+  Configuración de colores, tipografías y estilos de la aplicación.
+
+---
+
+## 🔐 Permisos utilizados
+
+```xml
+android.permission.CAMERA
+android.permission.INTERNET
+
+Además, se utiliza FileProvider para el manejo seguro de imágenes.
 
 
-3. Esperar la sincronización de Gradle
+---
+
+▶️ Cómo ejecutar el proyecto
+
+1. Clonar el repositorio:
 
 
-4. Ejecutar en un dispositivo o emulador Android
 
+git clone https://github.com/naomiigit/LunaAprende
+
+2. Abrir el proyecto en Android Studio.
+
+
+3. Esperar la sincronización de Gradle.
+
+
+4. Ejecutar en un dispositivo o emulador Android.
+
+
+
+
+---
+
+📌 Estado actual del proyecto
+
+Proyecto académico en desarrollo.
+
+Autenticación mediante API externa.
+
+Almacenamiento local de apuntes con Room.
+
+Quiz dinámico consumido desde API REST.
+
+Gestión de sesión con opción de cerrar sesión.
 
 
 
@@ -99,3 +151,5 @@ Estudiante de Analista Programador – Duoc UC
 
 Naomi Villarroel
 Estudiante de Analista Programador – Duoc UC
+
+---
