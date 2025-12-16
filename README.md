@@ -110,55 +110,40 @@ Pantalla central que permite acceder a las funcionalidades disponibles:
 
 ## 🔐 Permisos utilizados
 
-```bash
-android.permission.CAMERA
-android.permission.INTERNET
+- `android.permission.CAMERA`
+- `android.permission.INTERNET`
 
-Además, se utiliza FileProvider para el manejo seguro de imágenes.
-
+Además, se utiliza **FileProvider** para el manejo seguro de imágenes.
 
 ---
 
-▶️ Cómo ejecutar el proyecto
+## ▶️ Cómo ejecutar el proyecto
 
-1. Clonar el repositorio:
+1. Clonar el repositorio  
+   `git clone https://github.com/naomiigit/LunaAprende`
 
+2. Abrir el proyecto en **Android Studio**.
 
-```bash
-git clone https://github.com/naomiigit/LunaAprende
-
-2. Abrir el proyecto en Android Studio.
-
-
-3. Esperar la sincronización de Gradle.
-
+3. Esperar la sincronización de **Gradle**.
 
 4. Ejecutar en un dispositivo o emulador Android.
 
-
-
 ---
 
-📌 Estado actual del proyecto
+## 📌 Estado actual del proyecto
 
 - Proyecto académico en desarrollo.
-
 - Autenticación mediante API externa.
-
 - Almacenamiento local de apuntes con Room.
-
 - Quiz dinámico consumido desde API REST.
-
 - Gestión de sesión con opción de cerrar sesión.
-
-
 
 ---
 
-👩‍💻 Autoras
+## 👩‍💻 Autoras
 
-Francisca Guerrero
-Estudiante de Analista Programador – Duoc UC
+**Francisca Guerrero**  
+Estudiante de Analista Programador – Duoc UC  
 
-Naomi Villarroel
+**Naomi Villarroel**  
 Estudiante de Analista Programador – Duoc UC
