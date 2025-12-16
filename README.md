@@ -110,7 +110,7 @@ Pantalla central que permite acceder a las funcionalidades disponibles:
 
 ## 🔐 Permisos utilizados
 
-```xml
+```bash
 android.permission.CAMERA
 android.permission.INTERNET
 
