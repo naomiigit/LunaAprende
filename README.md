@@ -124,7 +124,7 @@ Además, se utiliza FileProvider para el manejo seguro de imágenes.
 1. Clonar el repositorio:
 
 
-
+```bash
 git clone https://github.com/naomiigit/LunaAprende
 
 2. Abrir el proyecto en Android Studio.
@@ -137,20 +137,19 @@ git clone https://github.com/naomiigit/LunaAprende
 
 
 
-
 ---
 
 📌 Estado actual del proyecto
 
-Proyecto académico en desarrollo.
+- Proyecto académico en desarrollo.
 
-Autenticación mediante API externa.
+- Autenticación mediante API externa.
 
-Almacenamiento local de apuntes con Room.
+- Almacenamiento local de apuntes con Room.
 
-Quiz dinámico consumido desde API REST.
+- Quiz dinámico consumido desde API REST.
 
-Gestión de sesión con opción de cerrar sesión.
+- Gestión de sesión con opción de cerrar sesión.
 
 
 
@@ -163,5 +162,3 @@ Estudiante de Analista Programador – Duoc UC
 
 Naomi Villarroel
 Estudiante de Analista Programador – Duoc UC
-
----
